@@ -1,0 +1,69 @@
+project:
+  type: book
+  output-dir: _book
+  render:
+    - "*.qmd"
+    - "!*_cache/*"
+    - "!*_files/*"
+
+book:
+  title: "Econometrics Time Series: Gujarati Companion"
+  subtitle: "A Comprehensive Guide with R and Quarto"
+  author: "Emanuel Quintana"
+  date: "2024"
+  
+  sidebar:
+    style: docked
+  
+  chapters:
+    - index.qmd
+    - part: "Introduction"
+      chapters:
+        - chapter_01/chapter_1.qmd
+        - chapter_02/chapter_2.qmd
+    - part: "Single-Equation Regression Models"
+      chapters:
+        - chapter_03/chapter_3.qmd
+        - chapter_04/chapter_4.qmd
+        - chapter_05/chapter_5.qmd
+        - chapter_06/chapter_6.qmd
+        - chapter_07/chapter_7.qmd
+        - chapter_08/chapter_8.qmd
+        - chapter_09/chapter_9.qmd
+    - part: "Relaxing the Assumptions of the Classical Model"
+      chapters:
+        - chapter_10/chapter_10.qmd
+        - chapter_11/chapter_11.qmd
+        - chapter_12/chapter_12.qmd
+        - chapter_13/chapter_13.qmd
+    - part: "Topics in Econometrics"
+      chapters:
+        - chapter_14/chapter_14.qmd
+        - chapter_15/chapter_15.qmd
+        - chapter_16/chapter_16.qmd
+        - chapter_17/chapter_17.qmd
+    - part: "Simultaneous-Equation Models and Time Series Econometrics"
+      chapters:
+        - chapter_18/chapter_18.qmd
+        - chapter_19/chapter_19.qmd
+        - chapter_20/chapter_20.qmd
+        - chapter_21/chapter_21.qmd
+        - chapter_22/chapter_22.qmd
+    - references.qmd
+
+format:
+  html:
+    theme: cosmo
+    css: styles.css
+    toc: true
+    toc-depth: 3
+    toc-title: "Contents"
+    number-sections: true
+
+execute:
+  freeze: auto
+  cache: true
+  warning: false
+  error: true
+
+lang: en

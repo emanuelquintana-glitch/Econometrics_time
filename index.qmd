@@ -1,0 +1,33 @@
+---
+title: "Econometrics Time Series"
+subtitle: "Gujarati Companion"
+author: "Emanuel Quintana"
+date: today
+format:
+  html:
+    toc: false
+    theme: cosmo
+    css: styles.css
+---
+
+# Welcome to Econometrics Time Series
+
+This is a comprehensive companion to Gujarati's *Basic Econometrics* textbook.
+
+## Quick Start
+
+1. Browse chapters in the sidebar
+2. Run code examples interactively
+3. Explore Shiny applications
+4. Check exercise solutions
+
+## Navigation
+
+- Use the **sidebar** to navigate chapters
+- **Search** for specific topics
+- Download **PDF/EPUB** versions
+- View **source code** on GitHub
+
+---
+
+*Built with Quarto • [View on GitHub](https://github.com/emanuelquintana-glitch/Econometrics_time)*

@@ -1,0 +1,42 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Econometrics Time Series: Gujarati Companion",
+    "section": "",
+    "text": "1 Welcome to Econometrics Time Series\nThis is a comprehensive companion to Gujarati’s Basic Econometrics textbook.",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Econometrics Time Series</span>"
+    ]
+  },
+  {
+    "objectID": "index.html#quick-start",
+    "href": "index.html#quick-start",
+    "title": "Econometrics Time Series: Gujarati Companion",
+    "section": "1.1 Quick Start",
+    "text": "1.1 Quick Start\n\nBrowse chapters in the sidebar\nRun code examples interactively\nExplore Shiny applications\nCheck exercise solutions",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Econometrics Time Series</span>"
+    ]
+  },
+  {
+    "objectID": "index.html#navigation",
+    "href": "index.html#navigation",
+    "title": "Econometrics Time Series: Gujarati Companion",
+    "section": "1.2 Navigation",
+    "text": "1.2 Navigation\n\nUse the sidebar to navigate chapters\nSearch for specific topics\nDownload PDF/EPUB versions\nView source code on GitHub\n\n\nBuilt with Quarto • View on GitHub",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Econometrics Time Series</span>"
+    ]
+  },
+  {
+    "objectID": "references.html",
+    "href": "references.html",
+    "title": "24  References",
+    "section": "",
+    "text": "25 References",
+    "crumbs": [
+      "<span class='chapter-number'>24</span>  <span class='chapter-title'>References</span>"
+    ]
+  }
+]

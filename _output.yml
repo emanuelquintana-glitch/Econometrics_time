@@ -1,0 +1,46 @@
+# _output.yml
+bookdown::gitbook:
+  css: 
+    - styles.css
+    - custom.css
+  config:
+    toc:
+      collapse: section
+      scroll_highlight: true
+      before: |
+        <li><a href="./">Econometrics Time</a></li>
+      after: |
+        <li><a href="https://github.com/emanuelquintana-glitch/Econometrics_time" target="blank">GitHub Repository</a></li>
+    sharing:
+      facebook: true
+      twitter: true
+      linkedin: true
+      weibo: false
+      instapaper: false
+      telegram: false
+    search: true
+    download: ["pdf", "epub"]
+    
+bookdown::pdf_book:
+  latex_engine: xelatex
+  citation_package: natbib
+  keep_tex: true
+  includes:
+    in_header: templates/preamble.tex
+    before_body: templates/before_body.tex
+    after_body: templates/after_body.tex
+  
+bookdown::epub_book:
+  stylesheet: css/epub.css
+
+bookdown::bs4_book:
+  theme:
+    primary: "#2c3e50"
+    secondary: "#18bc9c"
+  repo: 
+    base: https://github.com/emanuelquintana-glitch/Econometrics_time
+    branch: main
+    subdir: /
+  navbar:
+    bg: "#2c3e50"
+    type: dark

@@ -1,0 +1,5 @@
+# Variables de entorno para el proyecto
+R_LIBS_USER=~/R/library
+TZ=UTC
+LANG=en_US.UTF-8
+LC_ALL=en_US.UTF-8
