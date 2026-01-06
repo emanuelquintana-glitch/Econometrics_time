@@ -1,6 +1,59 @@
-.Rproj.user
+# --- R & RStudio ---
 .Rhistory
 .RData
 .Ruserdata
+.Rproj.user/
+.Rapp.history
+*-Ex.R
+/install_packages.log
 
+# --- Quarto & RMarkdown ---
 /.quarto/
+/_book/
+/_site/
+.quarto/
+*_cache/
+*_files/
+# Ignora los archivos generados por knitr si no los necesitas
+chapter_*/figure-html/
+chapter_*/figure-latex/
+
+# --- LaTeX (Archivos temporales de compilación) ---
+# Muy importante para tus carpetas en /cheatsheets/
+*.aux
+*.log
+*.out
+*.toc
+*.synctex.gz
+*.fdb_latexmk
+*.fls
+*.blg
+*.bbl
+*.nav
+*.snm
+*.vrb
+*.lof
+*.lot
+*.run.xml
+*.bcf
+
+# --- Archivos de salida (Opcional) ---
+# Si prefieres generar los PDFs localmente y no subirlos a GitHub:
+# *.pdf
+
+# --- Datos y Outputs pesados ---
+# Ignora archivos de datos si son muy grandes para GitHub
+/data/*.csv
+/data/*.rds
+/data/*.RData
+/outputs/
+
+# --- Sistema y Editores ---
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp
+
+# --- Docker ---
+.dockerignore

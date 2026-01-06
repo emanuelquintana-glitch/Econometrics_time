@@ -1,0 +1,898 @@
+\documentclass[9pt, spanish, twoside]{article}
+
+% --- Motores de Estilo "Vogue High-Tech" ---
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish, es-tabla, es-nodecimaldot]{babel}
+\usepackage[letterpaper, margin=1cm, top=1.3cm, bottom=1.5cm, headsep=0.7cm]{geometry}
+\usepackage{multicol}
+\usepackage{xcolor}
+\usepackage{titlesec}
+\usepackage{fancyhdr}
+\usepackage{lettrine}
+\usepackage{tcolorbox}
+\usepackage{booktabs}
+\usepackage{microtype}
+\usepackage{enumitem}
+\usepackage{amsmath, amssymb}
+\usepackage{pgfplots}
+\usepackage{animate}
+\usepackage{hyperref}
+\pgfplotsset{compat=1.18}
+\usetikzlibrary{arrows.meta, positioning}
+
+% --- Tipografía de Élite 2026 ---
+\usepackage{mathpazo} % Palatino (Serif - NYT Style)
+\usepackage[scaled=0.85]{helvet} % Helvetica (Sans - MIT Style)
+\newcommand{\techfont}{\fontfamily{phv}\selectfont}
+
+% --- Paleta "Titanium & Champagne" 2026 ---
+\definecolor{VogueBlack}{RGB}{8, 8, 8}
+\definecolor{NASAClassic}{RGB}{0, 32, 91}
+\definecolor{Champagne}{RGB}{181, 158, 118}
+\definecolor{TitaniumGray}{RGB}{242, 242, 242}
+\definecolor{InkGray}{RGB}{60, 60, 60}
+\definecolor{CriticalRed}{RGB}{180, 30, 30}
+
+% --- Configuración de Títulos de Alta Gama ---
+\titleformat{\section}
+  {\techfont\fontsize{10}{11}\selectfont\bfseries\color{VogueBlack}\lsstyle}
+  {}{0em}{\uppercase}
+  [\vspace{1pt}\color{Champagne}\hrule height 0.4pt]
+
+\titleformat{\subsection}
+  {\techfont\fontsize{7}{8}\selectfont\bfseries\color{InkGray}\lsstyle}
+  {}{0em}{\uppercase}
+
+% --- Encabezado "The 2026 Intelligence" ---
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{\scriptsize \techfont \textbf{UPTC ECONOMICS} \textbar \ \textcolor{Champagne}{QUANTITATIVE RESEARCH}}
+\rhead{\scriptsize \techfont \textcolor{VogueBlack}{ECONOMETRICS PROTOCOL \textbar \ ENE. 2026}}
+\fancyfoot[C]{\scriptsize \techfont \thepage}
+\renewcommand{\headrulewidth}{0.3pt}
+
+% --- Comandos de Diseño Pro ---
+\newcommand{\vogueQuote}[1]{
+    \begin{center}
+        \vspace{6pt}
+        {\color{Champagne}\hrule height 0.2pt}
+        \vspace{5pt}
+        {\fontsize{11}{14} \selectfont \itshape \color{VogueBlack} ``#1''}
+        \vspace{5pt}
+        {\color{Champagne}\hrule height 0.2pt}
+        \vspace{6pt}
+    \end{center}
+}
+
+\newcommand{\critical}[1]{\textcolor{CriticalRed}{\textbf{#1}}}
+\newcommand{\eqbox}[1]{\colorbox{TitaniumGray}{$\displaystyle #1$}}
+
+% --- Configuración de Hyperref ---
+\hypersetup{
+    colorlinks=true,
+    linkcolor=NASAClassic,
+    urlcolor=Champagne,
+    citecolor=InkGray
+}
+
+\setlength{\parindent}{0pt}
+\setlength{\columnsep}{16pt}
+
+\begin{document}
+
+% --- PORTADA CINEMATOGRÁFICA ---
+\thispagestyle{empty}
+\begin{center}
+    \vspace*{-0.8cm}
+    {\techfont \fontsize{6}{7.5} \selectfont \color{InkGray} \lsstyle TUNJA, COLOMBIA \textbar \ UPTC FACULTAD DE CIENCIAS ECONÓMICAS \textbar \ RELEASE: 05.01.2026} \\
+    \vspace{10pt}
+    \hrule height 0.2pt
+    \vspace{30pt}
+    {\fontsize{52}{48} \selectfont \textbf{ECONOMETRÍA}} \\
+    \vspace{4pt}
+    {\techfont \fontsize{8}{10} \selectfont \color{Champagne} \lsstyle CHEATSHEET ULTRA-RIGUROSO DE ALTA GAMA} \\
+    \vspace{18pt}
+    {\color{Champagne} \hrule height 1pt width 1.5cm}
+    \vspace{18pt}
+    {\Large \itshape \color{InkGray} Un compendio sistémico de la teoría econométrica moderna, desde los fundamentos clásicos hasta las fronteras asintóticas.} \\
+    \vspace{25pt}
+    {\techfont \fontsize{7}{9} \selectfont \lsstyle COMPILADO POR \textbf{\uppercase{Emanuel Quintana Silva}} \textbar \ 2026} \\
+    \vspace{15pt}
+    \hrule height 0.2pt
+    \vspace{10pt}
+    {\scriptsize \techfont \color{InkGray}
+    \textbf{REFERENCIAS CORE:} Gujarati \& Porter (2009) • Wooldridge (2015) • Davidson \& MacKinnon (2004) • Hamilton (1994) • Greene (2018)}
+\end{center}
+
+\newpage
+
+% === INICIO DEL CONTENIDO ===
+\begin{multicols*}{3}
+\setlength{\columnseprule}{0pt}
+
+\section{Definición y Núcleo}
+\subsection{Concepto Central}
+\lettrine[lines=2, nindent=0pt]{\textbf{\textcolor{Champagne}{L}}}{a} \textbf{econometría} es la ciencia social que aplica teoría económica, matemáticas e inferencia estadística al \critical{análisis cuantitativo de fenómenos económicos reales}. Su objetivo principal es dar \textbf{contenido empírico} a teorías cualitativas.
+
+\subsection{Amalgama de Disciplinas}
+\begin{enumerate}[leftmargin=8pt, noitemsep, topsep=2pt]
+    \item \textbf{Teoría Económica:} Postula hipótesis cualitativas (e.g., relación precio-demanda).
+    \item \textbf{Economía Matemática:} Expresa teorías en ecuaciones sin preocuparse por medición.
+    \item \textbf{Estadística Económica:} Recolecta, procesa y presenta datos (PIB, empleo).
+    \item \textbf{Estadística Matemática:} Proporciona herramientas de inferencia adaptadas a datos observacionales.
+\end{enumerate}
+
+\vogueQuote{La econometría transforma lo abstracto en mensurable, convirtiendo teoría en política.}
+
+\section{Modelo de Regresión Lineal}
+\subsection{Modelo Simple}
+El modelo más elemental:
+
+\vspace{2pt}
+\eqbox{y_t = \beta_1 + \beta_2 X_t + u_t}
+\vspace{2pt}
+
+\begin{itemize}[leftmargin=8pt, noitemsep, topsep=2pt]
+    \item $y_t$: Variable dependiente (regresando)
+    \item $X_t$: Variable explicativa (regresor)
+    \item $\beta_1, \beta_2$: Parámetros poblacionales
+    \item $u_t$: \critical{Término de error estocástico}
+\end{itemize}
+
+\subsection{Modelo Matricial}
+Representación compacta con $k$ regresores:
+
+\vspace{2pt}
+\eqbox{\mathbf{y} = \mathbf{X}\boldsymbol{\beta} + \mathbf{u}}
+\vspace{2pt}
+
+Donde $\mathbf{y}$ es $(n \times 1)$, $\mathbf{X}$ es $(n \times k)$, $\boldsymbol{\beta}$ es $(k \times 1)$, y $\mathbf{u}$ es $(n \times 1)$.
+
+\subsection{El Término de Error}
+El componente $u_t$ modela la \textbf{ignorancia parcial}:
+\begin{itemize}[leftmargin=8pt, noitemsep, topsep=2pt]
+    \item Variables omitidas
+    \item Errores de medición
+    \item Forma funcional incorrecta
+    \item Aleatoriedad inherente
+\end{itemize}
+
+\critical{Supuesto clave:} $E(u_t|X_t) = 0$ → factores omitidos se cancelan en promedio.
+
+
+
+\section{Supuestos Clásicos}
+\subsection{Modelo Lineal Clásico}
+\begin{tcolorbox}[colback=TitaniumGray, colframe=VogueBlack, arc=0pt, boxrule=0.3pt, title=\techfont \tiny SUPUESTOS GAUSS-MARKOV, fonttitle=\tiny\bfseries]
+\scriptsize
+\textbf{GM.1} Linealidad en parámetros \\
+\textbf{GM.2} $E(u_t|X_t) = 0$ (media condicional cero) \\
+\textbf{GM.3} $\text{Var}(u_t|X_t) = \sigma^2$ (homoscedasticidad) \\
+\textbf{GM.4} $\text{Cov}(u_i, u_j|X) = 0, i \neq j$ (no autocorrelación) \\
+\textbf{GM.5} $\text{Cov}(X_t, u_t) = 0$ (exogeneidad estricta) \\
+\textbf{GM.6} $\text{rank}(\mathbf{X}) = k$ (no multicolinealidad perfecta)
+\end{tcolorbox}
+
+\subsection{Consecuencias}
+Bajo GM.1-GM.6, OLS es \textbf{BLUE}: Best Linear Unbiased Estimator.
+
+\section{Estimación: OLS}
+\subsection{Principio de Mínimos Cuadrados}
+Minimizar la suma de residuos al cuadrado:
+
+\vspace{2pt}
+$\min_{\boldsymbol{\beta}} \sum_{i=1}^{n}(y_i - \mathbf{x}_i'\boldsymbol{\beta})^2 = \min \mathbf{u}'\mathbf{u}$
+\vspace{2pt}
+
+\subsection{Estimador OLS}
+\vspace{2pt}
+\eqbox{\hat{\boldsymbol{\beta}} = (\mathbf{X}'\mathbf{X})^{-1}\mathbf{X}'\mathbf{y}}
+\vspace{2pt}
+
+\subsection{Propiedades en Muestra Finita}
+\begin{enumerate}[leftmargin=8pt, noitemsep, topsep=2pt]
+    \item \textbf{Insesgado:} $E(\hat{\boldsymbol{\beta}}) = \boldsymbol{\beta}$
+    \item \textbf{Varianza:} $\text{Var}(\hat{\boldsymbol{\beta}}) = \sigma^2(\mathbf{X}'\mathbf{X})^{-1}$
+    \item \textbf{Eficiente:} Mínima varianza entre estimadores lineales insesgados
+\end{enumerate}
+
+\subsection{Estimación de Varianza}
+\vspace{2pt}
+\eqbox{s^2 = \frac{\sum \hat{u}_i^2}{n-k} = \frac{\mathbf{u}'\mathbf{u}}{n-k}}
+\vspace{2pt}
+
+donde $\hat{u}_i = y_i - \mathbf{x}_i'\hat{\boldsymbol{\beta}}$ son los residuos.
+
+
+% === ANIMACIÓN 1: OLS CONVERGENCIA (TAMAÑO EQUILIBRADO 2026) ===
+\begin{center}
+\vspace{6pt}
+\subsection{Visualización OLS Dinámica}
+\scriptsize\textit{Ajuste iterativo de la línea de regresión estructural}
+\vspace{6pt}
+
+\shorthandoff{>}\shorthandoff{<}
+\begin{animateinline}[autoplay,loop]{8}
+\multiframe{15}{rB=0.2+0.05}{
+    % Scale 0.95 mantiene las fuentes legibles pero compactas
+    \begin{tikzpicture}[scale=0.95]
+    \begin{axis}[
+        % Dimensiones equilibradas: 8cm x 5.5cm
+        width=8cm, height=5.5cm,
+        axis lines=middle,
+        xlabel={\small $X$}, ylabel={\small $Y$},
+        xmin=0, xmax=10, ymin=0, ymax=12,
+        grid=major, grid style={dashed, gray!20},
+        title={\small \techfont CONVERGENCIA OLS},
+        title style={font=\small, yshift=3pt}
+    ]
+    \addplot[only marks, mark=*, mark size=1.4pt, NASAClassic]
+        coordinates {(1,2) (2,3.5) (3,5) (4,6) (5,7.5) (6,9) (7,10) (8,11)};
+    \addplot[Champagne, ultra thick, domain=0:10] {1 + \rB*x};
+    \end{axis}
+    \end{tikzpicture}
+}
+\end{animateinline}
+\shorthandon{>}\shorthandon{<}
+\vspace{6pt}
+\end{center}
+
+
+
+\section{Inferencia Estadística}
+\subsection{Distribución del Estimador}
+Bajo normalidad de errores ($u \sim N(0, \sigma^2\mathbf{I})$):
+\eqbox{\hat{\boldsymbol{\beta}} \sim N\left(\boldsymbol{\beta}, \sigma^2(\mathbf{X}'\mathbf{X})^{-1}\right)}
+
+\subsection{Test $t$ Individual}
+Para probar $H_0: \beta_j = 0$ vs $H_1: \beta_j \neq 0$:
+\eqbox{t = \frac{\hat{\beta}_j}{\text{se}(\hat{\beta}_j)} \sim t_{n-k}}
+
+\critical{Regla de decisión:} Rechazar $H_0$ si $|t| > t_{\alpha/2, n-k}$.
+
+\subsection{Test $F$ Conjunto}
+Para probar $q$ restricciones lineales:
+\eqbox{F = \frac{(\text{SSR}_r - \text{SSR}_{ur})/q}{\text{SSR}_{ur}/(n-k)} \sim F_{q, n-k}}
+
+\subsection{Intervalos de Confianza}
+Intervalo al $(1-\alpha)100\%$:
+\eqbox{\hat{\beta}_j \pm t_{\alpha/2, n-k} \cdot \text{se}(\hat{\beta}_j)}
+
+\section{Bondad de Ajuste}
+\subsection{$R^2$ (Coeficiente de Determinación)}
+\eqbox{R^2 = 1 - \frac{\text{SSR}}{\text{TSS}} = \frac{\text{ESS}}{\text{TSS}}}
+
+\begin{itemize}[leftmargin=8pt, noitemsep, topsep=2pt]
+    \item \textbf{TSS:} $\sum(y_i - \bar{y})^2$ (variación total)
+    \item \textbf{ESS:} $\sum(\hat{y}_i - \bar{y})^2$ (variación explicada)
+    \item \textbf{SSR:} $\sum\hat{u}_i^2$ (variación residual)
+\end{itemize}
+
+\critical{Limitación:} $R^2$ siempre aumenta con más regresores.
+
+\subsection{$R^2$ Ajustado}
+Penaliza la inclusión de variables irrelevantes que no aportan poder explicativo real al modelo:
+
+\eqbox{\bar{R}^2 = 1 - \frac{\text{SSR}/(n-k)}{\text{TSS}/(n-1)}}
+
+
+Puede \textit{decrecer} al agregar variables irrelevantes.
+
+\section{Multicolinealidad}
+\subsection{Problema}
+Alta correlación entre regresores → $(\mathbf{X}'\mathbf{X})$ casi singular.
+
+\subsection{Consecuencias}
+\begin{itemize}[leftmargin=8pt, noitemsep, topsep=2pt]
+    \item Varianzas infladas de $\hat{\boldsymbol{\beta}}$
+    \item Estimadores inestables
+    \item Tests $t$ individuales no significativos pero $F$ significativo
+    \item Signos incorrectos
+\end{itemize}
+
+\subsection{Detección: VIF}
+Factor de Inflación de Varianza:
+\eqbox{\text{VIF}_j = \frac{1}{1 - R_j^2}}
+
+donde $R_j^2$ es el $R^2$ de regresar $X_j$ sobre los demás regresores.
+
+\critical{Regla práctica:} VIF $> 10$ indica multicolinealidad severa.
+
+\subsection{Remedios}
+\begin{enumerate}[leftmargin=8pt, noitemsep, topsep=2pt]
+    \item Eliminar variables redundantes
+    \item Aumentar tamaño muestral
+    \item Recolectar nuevos datos
+    \item Usar información \textit{a priori}
+    \item Regresión Ridge (penalización)
+\end{enumerate}
+
+\section{Heterocedasticidad}
+\subsection{Problema}
+Varianza no constante: $\text{Var}(u_i|X_i) = \sigma_i^2$ (viola GM.3).
+
+\subsection{Consecuencias}
+\begin{itemize}[leftmargin=8pt, noitemsep, topsep=2pt]
+    \item OLS sigue \textbf{insesgado} y \textbf{consistente}
+    \item OLS \critical{NO es eficiente} (deja de ser BLUE)
+    \item Errores estándar incorrectos
+    \item Inferencia inválida (tests $t$ y $F$ no confiables)
+\end{itemize}
+
+\subsection{Detección}
+\textbf{1. Test de White:}
+\begin{itemize}[leftmargin=8pt, noitemsep, topsep=2pt]
+    \item Regresión auxiliar: $\hat{u}_i^2 = \alpha_0 + \alpha_1 X_i + \alpha_2 X_i^2 + \alpha_3 X_i X_j + v_i$
+    \item $H_0$: Homoscedasticidad
+    \item Estadístico: $nR^2 \sim \chi^2_q$
+\end{itemize}
+
+\textbf{2. Test de Breusch-Pagan:}
+\begin{itemize}[leftmargin=8pt, noitemsep, topsep=2pt]
+    \item Regresión: $\hat{u}_i^2 = \gamma_0 + \gamma_1 Z_i + v_i$
+    \item Similar a White pero con variables $Z$
+\end{itemize}
+
+\subsection{Soluciones}
+\begin{enumerate}[leftmargin=8pt, noitemsep, topsep=2pt]
+    \item \critical{Errores robustos} (White/Huber): Corrigen $\text{se}(\hat{\boldsymbol{\beta}})$
+    \item \textbf{WLS:} Si se conoce forma de $\sigma_i^2$
+    \item \textbf{FGLS:} Estimar $\sigma_i^2$ y aplicar WLS
+\end{enumerate}
+
+\textbf{Errores robustos de White:}
+$$\widehat{\text{Var}}(\hat{\boldsymbol{\beta}}) = (\mathbf{X}'\mathbf{X})^{-1}\left(\sum_i \hat{u}_i^2\mathbf{x}_i\mathbf{x}_i'\right)(\mathbf{X}'\mathbf{X})^{-1}$$
+
+
+% === ANIMACIÓN 2: HETEROCEDASTICIDAD (TAMAÑO REFINADO 2026) ===
+\begin{center}
+\vspace{4pt}
+\subsection{Heterocedasticidad Visual}
+\scriptsize\textit{Dispersión creciente de residuos}
+\vspace{4pt}
+
+\shorthandoff{>}\shorthandoff{<}
+\begin{animateinline}[autoplay,loop]{6}
+\multiframe{12}{rH=0.1+0.08}{
+    % Scale 0.9 para un look más compacto y elegante
+    \begin{tikzpicture}[scale=0.9]
+    \begin{axis}[
+        % Ancho reducido a 7.2cm para mayor equilibrio visual
+        width=7.2cm, height=5cm,
+        axis lines=middle,
+        xlabel={\small $X$}, ylabel={\small $u$},
+        xmin=0, xmax=10, ymin=-4, ymax=4,
+        grid=major, grid style={dashed, gray!20},
+        title={\small \techfont VAR$(u_i)$ CRECIENTE},
+        title style={font=\small, yshift=2pt}
+    ]
+    \addplot[only marks, mark=*, mark size=1.3pt, CriticalRed]
+        coordinates {
+            (1,0.2) (2,-0.3) (3,0.5*\rH) (4,-0.7*\rH)
+            (5,1.2*\rH) (6,-1.5*\rH) (7,2*\rH) (8,-2.3*\rH) (9,2.8*\rH)
+        };
+    \addplot[NASAClassic, dashed, domain=0:10, thick] {0};
+    \end{axis}
+    \end{tikzpicture}
+}
+\end{animateinline}
+\shorthandon{>}\shorthandon{<}
+\vspace{4pt}
+\end{center}
+
+
+
+
+
+\section{Autocorrelación}
+\subsection{Problema}
+Errores correlacionados en el tiempo: $\text{Cov}(u_i, u_j) \neq 0$ para $i \neq j$ (viola GM.4). Común en \textbf{series temporales}.
+
+\subsection{Consecuencias}
+Idénticas a heterocedasticidad:
+\begin{itemize}[leftmargin=8pt, noitemsep, topsep=2pt]
+    \item OLS insesgado pero no eficiente
+    \item Errores estándar sesgados (generalmente subestimados)
+    \item Intervalos de confianza y tests incorrectos
+\end{itemize}
+
+\subsection{Detección: Durbin-Watson}
+\eqbox{DW = \frac{\sum_{t=2}^n(\hat{u}_t - \hat{u}_{t-1})^2}{\sum_{t=1}^n\hat{u}_t^2} \approx 2(1 - \hat{\rho})}
+
+\begin{itemize}[leftmargin=8pt, noitemsep, topsep=2pt]
+    \item DW $\approx 2$: No autocorrelación
+    \item DW $< 2$: Autocorrelación positiva
+    \item DW $> 2$: Autocorrelación negativa
+\end{itemize}
+
+\critical{Limitación:} Solo detecta autocorrelación de orden 1.
+
+\subsection{Test de Breusch-Godfrey}
+Más general que DW (permite múltiples rezagos y regresores estocásticos):
+\begin{itemize}[leftmargin=8pt, noitemsep, topsep=2pt]
+    \item Regresión auxiliar: $\hat{u}_t = \alpha_0 + \alpha_1 X_t + \rho_1 \hat{u}_{t-1} + \cdots + \rho_p \hat{u}_{t-p} + v_t$
+    \item $(n-p)R^2 \sim \chi^2_p$ bajo $H_0$
+\end{itemize}
+
+\subsection{Soluciones}
+\begin{enumerate}[leftmargin=8pt, noitemsep, topsep=2pt]
+    \item \critical{Errores HAC} (Newey-West): Robustos a heterocedasticidad y autocorrelación
+    \item \textbf{FGLS:} Estimar estructura de autocorrelación
+    \item Modelar explícitamente: AR, MA, ARMA
+\end{enumerate}
+
+\section{Variables Instrumentales}
+\subsection{Problema: Endogeneidad}
+Si $\text{Cov}(X, u) \neq 0$, OLS es \critical{sesgado e inconsistente}.
+
+\textbf{Causas:}
+\begin{enumerate}[leftmargin=8pt, noitemsep, topsep=2pt]
+    \item Variables omitidas correlacionadas con $X$
+    \item Error de medición en $X$
+    \item Simultaneidad (causalidad inversa)
+    \item Variables dependientes rezagadas con errores AR
+\end{enumerate}
+
+\subsection{Solución: Instrumento $Z$}
+Un instrumento válido satisface:
+\begin{enumerate}[leftmargin=8pt, noitemsep, topsep=2pt]
+    \item \textbf{Relevancia:} $\text{Cov}(Z, X) \neq 0$
+    \item \textbf{Exogeneidad:} $\text{Cov}(Z, u) = 0$
+\end{enumerate}
+
+\subsection{Estimador IV (Simple)}
+Con un regresor endógeno y un instrumento:
+\eqbox{\hat{\beta}_{IV} = \frac{\text{Cov}(Z, Y)}{\text{Cov}(Z, X)} = \frac{\sum z_i y_i}{\sum z_i x_i}}
+
+\subsection{Mínimos Cuadrados en Dos Etapas (2SLS)}
+Para múltiples regresores/instrumentos:
+
+\textbf{Etapa 1:} Regresión de $X$ sobre instrumentos $Z$:
+$$X = Z\boldsymbol{\gamma} + v \quad \Rightarrow \quad \hat{X} = Z\hat{\boldsymbol{\gamma}}$$
+
+\textbf{Etapa 2:} Regresión de $Y$ sobre $\hat{X}$:
+$$Y = \hat{X}\boldsymbol{\beta} + u \quad \Rightarrow \quad \hat{\boldsymbol{\beta}}_{2SLS}$$
+
+\subsection{Forma Matricial General}
+\eqbox{\hat{\boldsymbol{\beta}}_{IV} = (\mathbf{X}'\mathbf{Z}(\mathbf{Z}'\mathbf{Z})^{-1}\mathbf{Z}'\mathbf{X})^{-1}\mathbf{X}'\mathbf{Z}(\mathbf{Z}'\mathbf{Z})^{-1}\mathbf{Z}'\mathbf{y}}
+
+\subsection{Test de Hausman}
+Para detectar endogeneidad:
+$$H = (\hat{\boldsymbol{\beta}}_{OLS} - \hat{\boldsymbol{\beta}}_{IV})'\left[\widehat{\text{Var}}(\hat{\boldsymbol{\beta}}_{IV}) - \widehat{\text{Var}}(\hat{\boldsymbol{\beta}}_{OLS})\right]^{-1}(\hat{\boldsymbol{\beta}}_{OLS} - \hat{\boldsymbol{\beta}}_{IV})$$
+$$H \sim \chi^2_k \text{ bajo } H_0: E(Xu) = 0$$
+
+\vogueQuote{En economía, la causalidad es un lujo que solo los instrumentos pueden comprar.}
+
+\section{Teoría Asintótica}
+\subsection{Motivación}
+Cuando fallan supuestos clásicos (regresores estocásticos, errores no normales), las propiedades de muestra finita se pierden. Recurrimos a \textbf{propiedades asintóticas} ($n \to \infty$).
+
+\subsection{Conceptos de Convergencia}
+\textbf{1. Convergencia en Probabilidad ($\xrightarrow{p}$):}
+$$\hat{\theta}_n \xrightarrow{p} \theta \iff \lim_{n\to\infty} P(|\hat{\theta}_n - \theta| > \epsilon) = 0$$
+
+\textbf{2. Convergencia Casi Segura ($\xrightarrow{a.s.}$):}
+$$P\left(\lim_{n\to\infty}\hat{\theta}_n = \theta\right) = 1$$
+
+\textbf{3. Convergencia en Distribución ($\xrightarrow{d}$):}
+$$F_{\hat{\theta}_n}(x) \to F_\theta(x) \text{ en puntos de continuidad}$$
+
+\subsection{Ley de Grandes Números (LLN)}
+Si $X_1, \ldots, X_n$ i.i.d. con $E(X_i) = \mu < \infty$:
+\eqbox{\bar{X}_n = \frac{1}{n}\sum_{i=1}^n X_i \xrightarrow{p} \mu}
+
+\textbf{Versiones:}
+\begin{itemize}[leftmargin=8pt, noitemsep, topsep=2pt]
+    \item \textbf{Kolmogorov:} Para i.i.d. (convergencia a.s.)
+    \item \textbf{Markov:} Para i.n.i.d. (heterogéneos)
+    \item \textbf{Ergódico:} Para series dependientes
+\end{itemize}
+
+\critical{Implicación:} Promedios muestrales son estimadores consistentes.
+
+\subsection{Teorema del Límite Central (CLT)}
+Si $X_1, \ldots, X_n$ i.i.d. con $E(X_i) = \mu$, $\text{Var}(X_i) = \sigma^2 < \infty$:
+\eqbox{\sqrt{n}(\bar{X}_n - \mu) \xrightarrow{d} N(0, \sigma^2)}
+
+\textbf{Versiones Generales:}
+\begin{itemize}[leftmargin=8pt, noitemsep, topsep=2pt]
+    \item \textbf{Lindeberg-Levy:} Para i.i.d.
+    \item \textbf{Lindeberg-Feller:} Para i.n.i.d.
+    \item \textbf{FCLT:} Para procesos dependientes (movimiento browniano)
+\end{itemize}
+
+\subsection{Propiedades Asintóticas de OLS}
+\textbf{Consistencia:}
+$\hat{\boldsymbol{\beta}} \xrightarrow{p} \boldsymbol{\beta}$
+requiere: $\frac{1}{n}\mathbf{X}'\mathbf{X} \xrightarrow{p} Q$ (definida positiva) y $\frac{1}{n}\mathbf{X}'\mathbf{u} \xrightarrow{p} 0$.
+
+\textbf{Normalidad Asintótica:}\\[10pt]
+\eqbox{\sqrt{n}(\hat{\boldsymbol{\beta}} - \boldsymbol{\beta}) \xrightarrow{d} N(0, \sigma^2 Q^{-1})}
+
+donde $Q = \text{plim}\frac{1}{n}\mathbf{X}'\mathbf{X}$.
+
+% === ANIMACIÓN 3: CONVERGENCIA ASINTÓTICA (TAMAÑO REFINADO 2026) ===
+\begin{center}
+\vspace{4pt}
+\subsection{Convergencia del Estimador}
+\scriptsize\textit{Distribución de $\hat{\beta}$ concentrándose a medida que aumenta $n$}
+\vspace{6pt}
+
+\shorthandoff{>}\shorthandoff{<}
+\begin{animateinline}[autoplay,loop]{5}
+\multiframe{10}{rN=50+50}{
+    % Scale 0.9 para consistencia con el gráfico anterior
+    \begin{tikzpicture}[scale=0.9]
+    \begin{axis}[
+        % Dimensiones espejo: 7.2cm x 5cm
+        width=7.2cm, height=5cm,
+        axis lines=middle,
+        xlabel={\small $\hat{\beta}$}, ylabel={\small Densidad},
+        xmin=-1, xmax=3, ymin=0, ymax=2.5,
+        grid=major, grid style={dashed, gray!20},
+        title={\small \techfont MUESTRA $n = \rN$},
+        title style={font=\small, yshift=2pt}
+    ]
+    \addplot[NASAClassic, thick, domain=-1:3, samples=50]
+        {exp(-((x-1)^2)/(2*(1/sqrt(\rN/50))))/sqrt(2*pi*(1/sqrt(\rN/50)))};
+    \addplot[CriticalRed, dashed, thick] coordinates {(1,0) (1,2.5)};
+    \end{axis}
+    \end{tikzpicture}
+}
+\end{animateinline}
+\shorthandon{>}\shorthandon{<}
+\vspace{4pt}
+\end{center}
+
+
+\section{GMM: Método Generalizado de Momentos}
+\subsection{Principio}
+Estimar parámetros igualando momentos poblacionales a muestrales:
+$E[g(W_i, \boldsymbol{\theta}_0)] = 0 \quad (\text{condiciones de momento})$
+
+\subsection{Momento Muestral}
+$\bar{g}_n(\boldsymbol{\theta}) = \frac{1}{n}\sum_{i=1}^n g(W_i, \boldsymbol{\theta})$
+
+\subsection{Estimador GMM}
+Minimizar forma cuadrática:
+\eqbox{\hat{\boldsymbol{\theta}}_{GMM} = \arg\min_{\boldsymbol{\theta}} \bar{g}_n(\boldsymbol{\theta})'\mathbf{W}_n\bar{g}_n(\boldsymbol{\theta})}
+
+donde $\mathbf{W}_n$ es matriz de ponderación.
+
+\subsection{GMM Óptimo}
+\critical{Matriz óptima:} $\mathbf{W}_n = \hat{\mathbf{V}}_n^{-1}$ donde
+$\mathbf{V}_n = \text{Var}(\sqrt{n}\bar{g}_n) \xrightarrow{p} \mathbf{V}$
+
+\textbf{Resultado:} Estimador asintóticamente eficiente.
+
+\subsection{Test de Sobreidentificación (J)}
+Si $\#\text{momentos} > \#\text{parámetros}$:
+$J = n\bar{g}_n(\hat{\boldsymbol{\theta}})'\mathbf{W}_n\bar{g}_n(\hat{\boldsymbol{\theta}}) \sim \chi^2_{r-k}$
+
+
+
+\section{Series de Tiempo}
+\subsection{Proceso Estocástico}
+Secuencia $\{Y_t: t \in T\}$ de variables aleatorias.
+
+\textbf{Realización:} Valores observados $\{y_1, \ldots, y_T\}$.
+
+\subsection{Estacionaridad}
+\textbf{Fuerte:} Distribución invariante a desplazamientos temporales.
+
+\textbf{Débil (Covarianza):}
+\begin{enumerate}[leftmargin=8pt, noitemsep, topsep=2pt]
+    \item $E(Y_t) = \mu$ (constante)
+    \item $\text{Var}(Y_t) = \sigma^2$ (constante)
+    \item $\text{Cov}(Y_t, Y_{t-s}) = \gamma_s$ (depende solo de $s$)
+\end{enumerate}
+
+\subsection{Proceso AR(1)}
+\eqbox{Y_t = \phi Y_{t-1} + \epsilon_t, \quad \epsilon_t \sim WN(0, \sigma^2)}
+
+\textbf{Estacionario si:} $|\phi| < 1$
+
+\textbf{Momentos:}
+\begin{itemize}[leftmargin=8pt, noitemsep, topsep=2pt]
+    \item $E(Y_t) = 0$ (si $\epsilon_t$ tiene media cero)
+    \item $\text{Var}(Y_t) = \frac{\sigma^2}{1-\phi^2}$
+    \item $\text{Cov}(Y_t, Y_{t-s}) = \phi^s \frac{\sigma^2}{1-\phi^2}$
+\end{itemize}
+
+\subsection{Raíz Unitaria}
+Si $\phi = 1$: \critical{Caminata aleatoria} (no estacionaria).
+$Y_t = Y_{t-1} + \epsilon_t \Rightarrow Y_t = Y_0 + \sum_{i=1}^t \epsilon_i$
+
+\textbf{Propiedades:}
+\begin{itemize}[leftmargin=8pt, noitemsep, topsep=2pt]
+    \item $\text{Var}(Y_t) = t\sigma^2$ (crece con $t$)
+    \item Shocks tienen efecto permanente
+    \item Proceso $I(1)$ (integrado de orden 1)
+\end{itemize}
+
+\subsection{Test de Dickey-Fuller}
+Probar $H_0$: raíz unitaria
+$\Delta Y_t = \delta Y_{t-1} + \epsilon_t$
+
+donde $\delta = \phi - 1$. $H_0: \delta = 0$.
+
+\critical{Distribución no estándar:} Usa valores críticos de Fuller.
+
+\textbf{ADF (Aumentado):} Agrega rezagos de $\Delta Y_t$ para capturar autocorrelación.
+
+\subsection{Cointegración}
+Dos series $I(1)$, $X_t$ e $Y_t$, están cointegradas si:
+\eqbox{Y_t - \beta X_t \sim I(0)}
+
+\critical{Combinación lineal es estacionaria.}
+
+\textbf{Test de Engle-Granger:}
+\begin{enumerate}[leftmargin=8pt, noitemsep, topsep=2pt]
+    \item Estimar $Y_t = \alpha + \beta X_t + u_t$ por OLS
+    \item Test ADF sobre residuos $\hat{u}_t$
+    \item Si $\hat{u}_t \sim I(0)$, las series están cointegradas
+\end{enumerate}
+
+% === ANIMACIÓN 4: PROCESO AR(1) (TAMAÑO REFINADO 2026) ===
+\begin{center}
+\vspace{4pt}
+\subsection{Proceso AR(1) Dinámico}
+\scriptsize\textit{Evolución de una serie temporal estacionaria en tiempo real}
+\vspace{6pt}
+
+\shorthandoff{>}\shorthandoff{<}
+\begin{animateinline}[autoplay,loop]{6}
+\multiframe{20}{rT=1+1}{
+    % Scale 0.9 para consistencia editorial 2026
+    \begin{tikzpicture}[scale=0.9]
+    \begin{axis}[
+        % Tamaño optimizado: 7.2cm x 5cm
+        width=7.2cm, height=5cm,
+        axis lines=middle,
+        xlabel={\small $t$}, ylabel={\small $Y_t$},
+        xmin=0, xmax=20, ymin=-3, ymax=3,
+        grid=major, grid style={dashed, gray!20},
+        title={\small \techfont DINÁMICA AR(1) CON $\phi=0.7$},
+        title style={font=\small, yshift=2pt}
+    ]
+    \addplot[NASAClassic, thick, mark=*, mark size=1pt]
+        coordinates {
+            (1,0) (2,0.5) (3,0.8) (4,0.6) (5,0.9)
+            (6,1.1) (7,0.7) (8,0.4) (9,0.6) (10,0.3)
+            (11,-0.1) (12,0.2) (13,0.5) (14,0.8) (15,0.6)
+            (16,0.4) (17,0.7) (18,0.9) (19,0.5) (20,0.3)
+        };
+    \addplot[CriticalRed, dashed, thick] coordinates {(\rT,-3) (\rT,3)};
+    \end{axis}
+    \end{tikzpicture}
+}
+\end{animateinline}
+\shorthandon{>}\shorthandon{<}
+\vspace{4pt}
+\end{center}
+
+
+\section{Tipos de Datos}
+\begin{tcolorbox}[colback=TitaniumGray, colframe=NASAClassic, arc=0pt, boxrule=0.3pt, title=\techfont \tiny SERIES DE TIEMPO, fonttitle=\tiny\bfseries]
+\scriptsize
+Observaciones a lo largo del tiempo: $Y_t$ para $t=1,\ldots,T$.
+
+\critical{Problemas:} Autocorrelación, no estacionaridad, raíz unitaria.
+
+\textbf{Ejemplo:} PIB trimestral 2000-2025.
+\end{tcolorbox}
+
+\begin{tcolorbox}[colback=TitaniumGray, colframe=NASAClassic, arc=0pt, boxrule=0.3pt, title=\techfont \tiny CORTE TRANSVERSAL, fonttitle=\tiny\bfseries]
+\scriptsize
+Observaciones de múltiples unidades en $t$ fijo: $Y_i$ para $i=1,\ldots,N$.
+
+\critical{Problemas:} Heterogeneidad, heterocedasticidad.
+
+\textbf{Ejemplo:} Ingresos de 1000 hogares en 2026.
+\end{tcolorbox}
+
+\begin{tcolorbox}[colback=TitaniumGray, colframe=NASAClassic, arc=0pt, boxrule=0.3pt, title=\techfont \tiny DATOS DE PANEL, fonttitle=\tiny\bfseries]
+\scriptsize
+Combinación: $Y_{it}$ para $i=1,\ldots,N$ y $t=1,\ldots,T$.
+
+\critical{Ventaja:} Controla heterogeneidad no observada.
+
+\textbf{Ejemplo:} 500 hogares durante 10 años.
+\end{tcolorbox}
+
+
+
+\section{Modelos de Panel}
+\subsection{Efectos Fijos (FE)}
+\eqbox{Y_{it} = \alpha_i + \mathbf{X}_{it}'\boldsymbol{\beta} + u_{it}}
+
+$\alpha_i$: Efecto individual fijo (heterogeneidad no observada).
+
+\textbf{Estimación:} Transformación \textit{within} (demeaning).
+
+\subsection{Efectos Aleatorios (RE)}
+\eqbox{Y_{it} = \alpha + \mathbf{X}_{it}'\boldsymbol{\beta} + (\eta_i + u_{it})}
+
+$\eta_i$: Efecto aleatorio (i.i.d.).
+
+\textbf{Supuesto clave:} $E(\eta_i|\mathbf{X}_{it}) = 0$.
+
+\subsection{Test de Hausman}
+Decidir entre FE y RE:
+$H = (\hat{\boldsymbol{\beta}}_{FE} - \hat{\boldsymbol{\beta}}_{RE})'\left[\widehat{\text{Var}}(\hat{\boldsymbol{\beta}}_{FE}) - \widehat{\text{Var}}(\hat{\boldsymbol{\beta}}_{RE})\right]^{-1}(\hat{\boldsymbol{\beta}}_{FE} - \hat{\boldsymbol{\beta}}_{RE})$
+
+$H_0$: RE es consistente (y eficiente). Si se rechaza, usar FE.
+
+\section{Modelos No Lineales}
+\subsection{Modelo Probit}
+Para variable dependiente binaria $Y \in \{0,1\}$:
+\eqbox{P(Y=1|\mathbf{X}) = \Phi(\mathbf{X}'\boldsymbol{\beta})}
+
+$\Phi$: CDF normal estándar.
+
+\subsection{Modelo Logit}
+\eqbox{P(Y=1|\mathbf{X}) = \frac{\exp(\mathbf{X}'\boldsymbol{\beta})}{1 + \exp(\mathbf{X}'\boldsymbol{\beta})} = \Lambda(\mathbf{X}'\boldsymbol{\beta})}
+
+$\Lambda$: Función logística.
+
+\subsection{Modelo Tobit}
+Para datos censurados:
+$Y_i^* = \mathbf{X}_i'\boldsymbol{\beta} + u_i$
+$Y_i = \begin{cases} Y_i^* & \text{si } Y_i^* > 0 \\ 0 & \text{si } Y_i^* \leq 0 \end{cases}$
+
+\textbf{Estimación:} Máxima verosimilitud.
+
+\section{Máxima Verosimilitud}
+\subsection{Principio}
+Maximizar función de verosimilitud:
+$L(\boldsymbol{\theta}; \mathbf{y}) = \prod_{i=1}^n f(y_i|\boldsymbol{\theta})$
+
+O log-verosimilitud:
+\eqbox{\ell(\boldsymbol{\theta}) = \sum_{i=1}^n \ln f(y_i|\boldsymbol{\theta})}
+
+\subsection{Estimador ML}
+\eqbox{\hat{\boldsymbol{\theta}}_{ML} = \arg\max_{\boldsymbol{\theta}} \ell(\boldsymbol{\theta})}
+
+\textbf{CPO:} $\frac{\partial \ell}{\partial \boldsymbol{\theta}} = 0$
+
+\subsection{Propiedades Asintóticas}
+\begin{enumerate}[leftmargin=8pt, noitemsep, topsep=2pt]
+    \item \textbf{Consistencia:} $\hat{\boldsymbol{\theta}}_{ML} \xrightarrow{p} \boldsymbol{\theta}_0$
+    \item \textbf{Normalidad asintótica:}
+    $\sqrt{n}(\hat{\boldsymbol{\theta}}_{ML} - \boldsymbol{\theta}_0) \xrightarrow{d} N(0, \mathcal{I}^{-1})$
+    \item \textbf{Eficiencia:} Alcanza cota Cramér-Rao
+\end{enumerate}
+
+\textbf{Matriz de Información:}
+$\mathcal{I}(\boldsymbol{\theta}) = -E\left[\frac{\partial^2 \ell}{\partial \boldsymbol{\theta}\partial\boldsymbol{\theta}'}\right]$
+
+\section{Tests Avanzados}
+\subsection{Test de Wald}
+Para $H_0: \mathbf{R}\boldsymbol{\beta} = \mathbf{r}$:
+\eqbox{W = (\mathbf{R}\hat{\boldsymbol{\beta}} - \mathbf{r})'\left[\mathbf{R}\widehat{\text{Var}}(\hat{\boldsymbol{\beta}})\mathbf{R}'\right]^{-1}(\mathbf{R}\hat{\boldsymbol{\beta}} - \mathbf{r})}
+$W \sim \chi^2_q$
+
+\subsection{Test de Razón de Verosimilitud (LR)}
+\eqbox{LR = 2[\ell(\hat{\boldsymbol{\theta}}_{ur}) - \ell(\hat{\boldsymbol{\theta}}_r)] \sim \chi^2_q}
+
+\subsection{Test LM (Multiplicador de Lagrange)}
+Basado en gradiente en el restringido:
+$LM = \mathbf{s}(\hat{\boldsymbol{\theta}}_r)'\mathcal{I}^{-1}(\hat{\boldsymbol{\theta}}_r)\mathbf{s}(\hat{\boldsymbol{\theta}}_r) \sim \chi^2_q$
+
+\critical{Equivalencia:} Wald, LR y LM son asintóticamente equivalentes.
+
+\section{Metodología Clásica}
+\subsection{8 Pasos (Gujarati)}
+\begin{enumerate}[leftmargin=8pt, itemsep=1pt, topsep=2pt]
+    \item \textbf{Teoría/Hipótesis}
+    \item \textbf{Modelo Matemático}
+    \item \textbf{Modelo Econométrico} (agregar $u_t$)
+    \item \textbf{Obtención de Datos}
+    \item \textbf{Estimación de Parámetros}
+    \item \textbf{Prueba de Hipótesis}
+    \item \textbf{Pronóstico}
+    \item \textbf{Política Económica}
+\end{enumerate}
+
+\section{Batería de Tests}
+\vspace{4pt}
+\begin{center}
+\scriptsize\techfont
+\begin{tabular}{@{}lll@{}}
+\toprule
+\textbf{Problema} & \textbf{Test} & \textbf{$H_0$} \\
+\midrule
+Multicolinealidad & VIF & VIF $< 10$ \\
+Heterocedasticidad & White & Homosced. \\
+ & Breusch-Pagan & Homosced. \\
+Autocorrelación & Durbin-Watson & $\rho = 0$ \\
+ & Breusch-Godfrey & No autocorr. \\
+Normalidad & Jarque-Bera & Normal \\
+Especificación & RESET & Correcta \\
+Raíz Unitaria & ADF & Raíz unit. \\
+ & PP & Raíz unit. \\
+Cointegración & Engle-Granger & No cointegr. \\
+Endogeneidad & Hausman & Exogeneidad \\
+\bottomrule
+\end{tabular}
+\end{center}
+\vspace{4pt}
+
+\section{Fórmulas Esenciales}
+\begin{tcolorbox}[colback=NASAClassic!10, colframe=NASAClassic, arc=0pt, boxrule=0.4pt, title=\techfont \tiny OLS, fonttitle=\tiny\bfseries]
+\scriptsize
+$\hat{\boldsymbol{\beta}} = (\mathbf{X}'\mathbf{X})^{-1}\mathbf{X}'\mathbf{y}$
+$\text{Var}(\hat{\boldsymbol{\beta}}) = \sigma^2(\mathbf{X}'\mathbf{X})^{-1}$
+$s^2 = \frac{\mathbf{u}'\mathbf{u}}{n-k}$
+\end{tcolorbox}
+
+\begin{tcolorbox}[colback=Champagne!15, colframe=Champagne, arc=0pt, boxrule=0.4pt, title=\techfont \tiny IV/2SLS, fonttitle=\tiny\bfseries]
+\scriptsize
+$\hat{\boldsymbol{\beta}}_{IV} = (\mathbf{X}'\mathbf{Z}(\mathbf{Z}'\mathbf{Z})^{-1}\mathbf{Z}'\mathbf{X})^{-1}\mathbf{X}'\mathbf{Z}(\mathbf{Z}'\mathbf{Z})^{-1}\mathbf{Z}'\mathbf{y}$
+\end{tcolorbox}
+
+\begin{tcolorbox}[colback=CriticalRed!10, colframe=CriticalRed, arc=0pt, boxrule=0.4pt, title=\techfont \tiny GMM, fonttitle=\tiny\bfseries]
+\scriptsize
+$\hat{\boldsymbol{\theta}} = \arg\min \bar{g}_n'\mathbf{W}_n\bar{g}_n$
+$\mathbf{W}_n^* = \hat{\mathbf{V}}_n^{-1}$
+\end{tcolorbox}
+
+\vogueQuote{La sofisticación estadística sin intuición económica es mera pirotecnia matemática.}
+
+\section{Guía Práctica}
+\subsection{Checklist de Regresión}
+\begin{enumerate}[leftmargin=8pt, itemsep=1pt, topsep=2pt]
+    \item[$\square$] Graficar datos
+    \item[$\square$] Verificar estacionaridad (series)
+    \item[$\square$] Estimar modelo OLS
+    \item[$\square$] Analizar residuos
+    \item[$\square$] Tests diagnósticos
+    \item[$\square$] Corregir violaciones
+    \item[$\square$] Validar externamente
+    \item[$\square$] Interpretar económicamente
+\end{enumerate}
+
+\subsection{Errores Comunes}
+\begin{itemize}[leftmargin=8pt, noitemsep, topsep=2pt]
+    \item \critical{NO} comparar $R^2$ con diferentes $Y$
+    \item \critical{NO} confundir correlación con causalidad
+    \item \critical{NO} ignorar errores robustos
+    \item \critical{NO} usar OLS con endogeneidad
+    \item \critical{NO} olvidar supuestos
+\end{itemize}
+
+\subsection{Software}
+\begin{itemize}[leftmargin=8pt, noitemsep, topsep=2pt]
+    \item \textbf{R:} \texttt{lm()}, \texttt{plm}, \texttt{tseries}
+    \item \textbf{Python:} \texttt{statsmodels}, \texttt{linearmodels}
+    \item \textbf{Stata:} \texttt{reg}, \texttt{ivregress}, \texttt{xtset}
+\end{itemize}
+
+\section{Referencias Core}
+\begin{itemize}[leftmargin=8pt, noitemsep, topsep=2pt]
+    \item \textbf{Gujarati \& Porter} (2009). \textit{Econometría}. McGraw-Hill. 5ed.
+    \item \textbf{Wooldridge} (2015). \textit{Introductory Econometrics}. Cengage. 6ed.
+    \item \textbf{Davidson \& MacKinnon} (2004). \textit{Econometric Theory and Methods}. Oxford.
+    \item \textbf{Hamilton} (1994). \textit{Time Series Analysis}. Princeton.
+    \item \textbf{Greene} (2018). \textit{Econometric Analysis}. Pearson. 8ed.
+\end{itemize}
+
+\end{multicols*}
+
+% === PIE DE PÁGINA FINAL ===
+\vfill
+\hrule height 0.3pt
+\vspace{3pt}
+\begin{center}
+    \scriptsize\techfont\lsstyle
+    \textcolor{VogueBlack}{ECONOMETRÍA 2026} \textbar\
+    \textcolor{Champagne}{EMANUEL QUINTANA SILVA} \textbar\
+    UPTC ECONOMICS \\
+    \vspace{2pt}
+    \textcolor{InkGray}{\href{mailto:emanuel.quintana@uptc.edu.co}{emanuel.quintana@uptc.edu.co} \textbar\ ORCID: 0009-0006-8419-2805 \textbar\ GitHub: @emanuelquintana-glitch} \\
+    \vspace{2pt}
+    \textit{Compilado con pdfLaTeX + animate. Abrir con Adobe Acrobat Reader para animaciones o para usuarios linux firefox.}
+\end{center}
+
+\end{document}

@@ -1,0 +1,73 @@
+\documentclass[10pt, spanish]{article}
+
+% --- Motores de Estilo 2026 ---
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish, es-tabla, es-nodecimaldot]{babel}
+\usepackage[letterpaper, margin=1.5cm, top=1.5cm]{geometry}
+\usepackage{xcolor}
+\usepackage{titlesec}
+\usepackage{tcolorbox}
+\usepackage{amsmath, amssymb}
+\usepackage{microtype}
+
+% --- Tipografía Vogue/MIT ---
+\usepackage{mathpazo}
+\usepackage[scaled=0.85]{helvet}
+\newcommand{\techfont}{\fontfamily{phv}\selectfont}
+
+% --- Paleta de Colores ---
+\definecolor{VogueBlack}{RGB}{15, 15, 15}
+\definecolor{NASABlue}{RGB}{0, 30, 80}
+\definecolor{Champagne}{RGB}{180, 155, 110}
+
+% --- Comando para Ecuaciones Blindadas ---
+\newcommand{\eqbox}[1]{
+    \begin{center}
+        \begin{tcolorbox}[colback=white, colframe=Champagne, arc=0pt, boxrule=0.6pt, left=10pt, right=10pt, top=8pt, bottom=8pt]
+            \centering $\displaystyle #1 $
+        \end{tcolorbox}
+    \end{center}
+}
+
+\begin{document}
+
+% --- Cabecera ---
+\begin{center}
+    {\techfont \fontsize{7}{8} \selectfont \color{gray} MASSACHUSETTS INSTITUTE OF TECHNOLOGY \textbar \ 2026} \\
+    \vspace{5pt}
+    {\Huge \textbf{OBJETIVOS DE LA ECONOMETRÍA}} \\
+    \vspace{2pt}
+    \textcolor{Champagne}{\rule{6cm}{0.5pt}}
+\end{center}
+
+\section*{1. Estimación de Parámetros}
+El objetivo principal es cuantificar las relaciones teóricas mediante el vector de parámetros $\beta$. Para asegurar la validez asintótica en 2026, requerimos:
+
+\eqbox{\hat{\beta}_{OLS} = (X'X)^{-1}X'y}
+
+\section*{2. Verificación de Hipótesis}
+Utilizamos pruebas de significancia para validar la teoría económica. El estadístico $t$ de Student permite determinar si $\beta_j$ es distinto de cero con un nivel de confianza $\alpha = 0.05$.
+
+\section*{3. Predicción Dinámica}
+A partir de los modelos estimados, generamos proyecciones para misiones de la NASA. El valor esperado condicional se define como:
+
+\eqbox{E[y | X = x_0] = x_0' \beta}
+
+% --- Simulación de bloque de código R (Vogue Style) ---
+\section*{Implementación en R 4.5.1}
+\begin{tcolorbox}[colback=VogueBlack, colframe=VogueBlack, arc=3pt, title=\techfont \tiny R-CONSOLE: ESTIMACIÓN]
+\begin{verbatim}
+# Modelo de Regresión Lineal 2026
+modelo <- lm(misiones ~ presupuesto + tecnologia, data = nasa_jpl)
+summary(modelo)
+\end{verbatim}
+\end{tcolorbox}
+
+\vfill
+\hrule height 0.4pt
+\begin{center}
+    \tiny \techfont \textcolor{VogueBlack}{CHAPTER 02 \textbar \ ECONOMETRICS TIME \textbar \ JAN 2026}
+\end{center}
+
+\end{document}

@@ -1,0 +1,131 @@
+\documentclass[10pt, spanish]{article}\usepackage[]{graphicx}\usepackage[]{xcolor}
+% maxwidth is the original width if it is less than linewidth
+% otherwise use linewidth (to make sure the graphics do not exceed the margin)
+\makeatletter
+\def\maxwidth{ %
+  \ifdim\Gin@nat@width>\linewidth
+    \linewidth
+  \else
+    \Gin@nat@width
+  \fi
+}
+\makeatother
+
+\definecolor{fgcolor}{rgb}{0.345, 0.345, 0.345}
+\newcommand{\hlnum}[1]{\textcolor[rgb]{0.686,0.059,0.569}{#1}}%
+\newcommand{\hlsng}[1]{\textcolor[rgb]{0.192,0.494,0.8}{#1}}%
+\newcommand{\hlcom}[1]{\textcolor[rgb]{0.678,0.584,0.686}{\textit{#1}}}%
+\newcommand{\hlopt}[1]{\textcolor[rgb]{0,0,0}{#1}}%
+\newcommand{\hldef}[1]{\textcolor[rgb]{0.345,0.345,0.345}{#1}}%
+\newcommand{\hlkwa}[1]{\textcolor[rgb]{0.161,0.373,0.58}{\textbf{#1}}}%
+\newcommand{\hlkwb}[1]{\textcolor[rgb]{0.69,0.353,0.396}{#1}}%
+\newcommand{\hlkwc}[1]{\textcolor[rgb]{0.333,0.667,0.333}{#1}}%
+\newcommand{\hlkwd}[1]{\textcolor[rgb]{0.737,0.353,0.396}{\textbf{#1}}}%
+\let\hlipl\hlkwb
+
+\usepackage{framed}
+\makeatletter
+\newenvironment{kframe}{%
+ \def\at@end@of@kframe{}%
+ \ifinner\ifhmode%
+  \def\at@end@of@kframe{\end{minipage}}%
+  \begin{minipage}{\columnwidth}%
+ \fi\fi%
+ \def\FrameCommand##1{\hskip\@totalleftmargin \hskip-\fboxsep
+ \colorbox{shadecolor}{##1}\hskip-\fboxsep
+     % There is no \\@totalrightmargin, so:
+     \hskip-\linewidth \hskip-\@totalleftmargin \hskip\columnwidth}%
+ \MakeFramed {\advance\hsize-\width
+   \@totalleftmargin\z@ \linewidth\hsize
+   \@setminipage}}%
+ {\par\unskip\endMakeFramed%
+ \at@end@of@kframe}
+\makeatother
+
+\definecolor{shadecolor}{rgb}{.97, .97, .97}
+\definecolor{messagecolor}{rgb}{0, 0, 0}
+\definecolor{warningcolor}{rgb}{1, 0, 1}
+\definecolor{errorcolor}{rgb}{1, 0, 0}
+\newenvironment{knitrout}{}{} % an empty environment to be redefined in TeX
+
+\usepackage{alltt}
+
+% --- Motores de Estilo 2026 ---
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish, es-tabla]{babel}
+\usepackage[letterpaper, margin=1.5cm]{geometry}
+\usepackage{xcolor}
+\usepackage{tcolorbox}
+\usepackage{amsmath}
+\usepackage{mathpazo}
+\usepackage[scaled=0.85]{helvet}
+\newcommand{\techfont}{\fontfamily{phv}\selectfont}
+
+% --- Colores Oficiales 2026 ---
+\definecolor{VogueBlack}{HTML}{0F0F0F}
+\definecolor{NASABlue}{HTML}{001E50}
+\definecolor{Champagne}{HTML}{B49B6E}
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\begin{document}
+
+
+
+\begin{center}
+    {\techfont \fontsize{7}{8} \selectfont \color{gray} MASSACHUSETTS INSTITUTE OF TECHNOLOGY \textbar \ 2026} \\
+    \vspace{10pt}
+    {\Huge \textbf{ECONOMETRÍA AUTOMATIZADA}} \\
+    \vspace{5pt}
+    {\techfont \small \color{Champagne} MOTOR DE CÁLCULO: R 4.5.1 + LATEX 2025} \\
+    \hrule height 0.2pt
+\end{center}
+
+\section{Simulación de Monte Carlo}
+En este bloque, R genera una muestra aleatoria y LaTeX la reporta en tiempo real.
+No estamos escribiendo datos; estamos programando conocimiento.
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlcom{# Generación de datos interplanetarios}
+\hlkwd{set.seed}\hldef{(}\hlnum{2026}\hldef{)}
+\hldef{n} \hlkwb{<-} \hlnum{100}
+\hldef{presupuesto_nasa} \hlkwb{<-} \hlkwd{rnorm}\hldef{(n,} \hlkwc{mean} \hldef{=} \hlnum{500}\hldef{,} \hlkwc{sd} \hldef{=} \hlnum{50}\hldef{)}
+\hldef{misiones_exito} \hlkwb{<-} \hlnum{0.8} \hlopt{*} \hldef{presupuesto_nasa} \hlopt{+} \hlkwd{rnorm}\hldef{(n,} \hlkwc{sd} \hldef{=} \hlnum{20}\hldef{)}
+
+\hlcom{# Regresión lineal automática}
+\hldef{modelo} \hlkwb{<-} \hlkwd{lm}\hldef{(misiones_exito} \hlopt{~} \hldef{presupuesto_nasa)}
+\hlkwd{coef}\hldef{(modelo)}
+\end{alltt}
+\begin{verbatim}
+##      (Intercept) presupuesto_nasa 
+##       13.5962423        0.7774464
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
+
+\section{Visualización Estratégica}
+El siguiente gráfico es generado dinámicamente por el motor R 4.5.1 usando la paleta de colores Champagne del MIT.
+
+\begin{center}
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
+\includegraphics[width=\maxwidth]{figures/grafico_pro-1} 
+\end{knitrout}
+\end{center}
+
+\section{Análisis de Residuos}
+Para validar nuestra hipótesis asintótica, el modelo reporta un $R^2$ de:
+\textbf{0.8061}.
+
+\begin{tcolorbox}[colback=VogueBlack, colframe=Champagne, arc=0pt, title=\techfont \tiny ESTATUS DE CÁLCULO]
+    \textcolor{white}{\scriptsize El modelo se ha compilado con éxito. Los resultados muestran una convergencia total en el ciclo de datos de Enero 2026.}
+\end{tcolorbox}
+
+\vfill
+\hrule height 0.5pt
+\begin{center}
+    \tiny \techfont \textcolor{VogueBlack}{REPORTE GENERADO AUTOMÁTICAMENTE \textbar \ REPRODUCIBILIDAD 100\%}
+\end{center}
+
+\end{document}
