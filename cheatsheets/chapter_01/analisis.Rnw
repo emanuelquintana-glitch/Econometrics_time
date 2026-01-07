@@ -1,83 +1,551 @@
 \documentclass[10pt, spanish]{article}
 
-% --- Motores de Estilo 2026 ---
+% --- Paquetes Fundamentales ---
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
-\usepackage[spanish, es-tabla]{babel}
-\usepackage[letterpaper, margin=1.5cm]{geometry}
+\usepackage[spanish, es-tabla, es-nodecimaldot]{babel}
+\usepackage[letterpaper, margin=1.5cm, top=2cm, bottom=2cm]{geometry}
 \usepackage{xcolor}
+\usepackage{titlesec}
+\usepackage{fancyhdr}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{amsmath, amssymb}
+\usepackage{booktabs}
+\usepackage{enumitem}
+\usepackage{hyperref}
 \usepackage{tcolorbox}
-\usepackage{amsmath}
+
+% --- Paquetes para Gráficos y Animaciones ---
+\usepackage{tikz}
+\usepackage{pgfplots}
+\usepackage{animate}
+\pgfplotsset{compat=1.18}
+\usetikzlibrary{arrows.meta, positioning, patterns, calc}
+
+% --- Tipografía ---
 \usepackage{mathpazo}
 \usepackage[scaled=0.85]{helvet}
 \newcommand{\techfont}{\fontfamily{phv}\selectfont}
 
-% --- Colores Oficiales 2026 ---
-\definecolor{VogueBlack}{HTML}{0F0F0F}
-\definecolor{NASABlue}{HTML}{001E50}
-\definecolor{Champagne}{HTML}{B49B6E}
+% --- Paleta de Colores ---
+\definecolor{VogueBlack}{RGB}{8, 8, 8}
+\definecolor{NASAClassic}{RGB}{0, 32, 91}
+\definecolor{Champagne}{RGB}{181, 158, 118}
+\definecolor{TitaniumGray}{RGB}{242, 242, 242}
+\definecolor{InkGray}{RGB}{60, 60, 60}
+\definecolor{CriticalRed}{RGB}{180, 30, 30}
+\definecolor{SuccessGreen}{RGB}{46, 125, 50}
+
+% --- Formato de Títulos ---
+\titleformat{\section}
+  {\techfont\Large\bfseries\color{VogueBlack}}
+  {\thesection}{1em}{\MakeUppercase}
+  [\vspace{2pt}{\color{Champagne}\titlerule[0.8pt]}]
+
+\titleformat{\subsection}
+  {\techfont\large\bfseries\color{InkGray}}
+  {\thesubsection}{1em}{}
+
+% --- Encabezados ---
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{\scriptsize\techfont\textbf{UPTC ECONOMICS}}
+\rhead{\scriptsize\techfont\textcolor{VogueBlack}{ANÁLISIS ECONOMÉTRICO | ENE. 2026}}
+\fancyfoot[C]{\scriptsize\techfont\thepage}
+\renewcommand{\headrulewidth}{0.3pt}
+
+% --- Comandos Personalizados ---
+\newcommand{\critical}[1]{\textcolor{CriticalRed}{\textbf{#1}}}
+\newcommand{\eqbox}[1]{\colorbox{TitaniumGray}{\,\,$\displaystyle #1$\,\,}}
+\newcommand{\checkOK}{\textcolor{SuccessGreen}{\textbf{[OK]}}}
+\newcommand{\crossNO}{\textcolor{CriticalRed}{\textbf{[X]}}}
+
+% --- Hyperref ---
+\hypersetup{
+    colorlinks=true,
+    linkcolor=NASAClassic,
+    urlcolor=Champagne,
+    citecolor=InkGray
+}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt}
+
+\title{\techfont\Huge\bfseries ANÁLISIS ECONOMÉTRICO \\[8pt]
+\Large\color{Champagne} Regresión Lineal Completa con R}
+\author{\techfont Emanuel Quintana Silva \\
+\small\textit{UPTC - Facultad de Ciencias Económicas}}
+\date{\techfont\small Enero 2026}
 
 \begin{document}
 
-<<setup, include=FALSE>>=
-# Configuración de R para estética MIT
+<<setup, include=FALSE, cache=FALSE>>=
 library(knitr)
-opts_chunk$set(echo = TRUE, dev = 'pdf', fig.path = 'figures/')
+library(ggplot2)
+library(car)
+library(lmtest)
+library(tseries)
+library(xtable)
+library(sandwich)
+
+opts_chunk$set(
+  echo = FALSE,
+  warning = FALSE,
+  message = FALSE,
+  fig.align = 'center',
+  fig.pos = 'H',
+  fig.width = 8,
+  fig.height = 5
+)
+
+# Tema personalizado
+theme_vogue <- function() {
+  theme_minimal() +
+  theme(
+    plot.title = element_text(face="bold", size=13, color="#080808"),
+    plot.subtitle = element_text(size=10, color="#3C3C3C", margin=margin(b=10)),
+    axis.title = element_text(size=11, color="#3C3C3C"),
+    axis.text = element_text(size=9),
+    panel.grid.major = element_line(color="#F2F2F2"),
+    panel.grid.minor = element_blank(),
+    legend.position = "bottom",
+    legend.title = element_text(face="bold", size=10),
+    plot.background = element_rect(fill="white", color=NA)
+  )
+}
 @
 
+% === PORTADA ===
+\thispagestyle{empty}
 \begin{center}
-    {\techfont \fontsize{7}{8} \selectfont \color{gray} MASSACHUSETTS INSTITUTE OF TECHNOLOGY \textbar \ 2026} \\
-    \vspace{10pt}
-    {\Huge \textbf{ECONOMETRÍA AUTOMATIZADA}} \\
-    \vspace{5pt}
-    {\techfont \small \color{Champagne} MOTOR DE CÁLCULO: R 4.5.1 + LATEX 2025} \\
-    \hrule height 0.2pt
+    \vspace*{1cm}
+    {\techfont\footnotesize\color{InkGray} TUNJA, COLOMBIA | UPTC | ENERO 2026}
+
+    \vspace{2cm}
+    {\fontsize{48}{52}\selectfont\bfseries ANÁLISIS}
+
+    {\fontsize{48}{52}\selectfont\bfseries ECONOMÉTRICO}
+
+    \vspace{0.5cm}
+    {\techfont\large\color{Champagne} ULTRA-COMPLETO CON R Y ANIMACIONES}
+
+    \vspace{2cm}
+    {\color{Champagne}\rule{3cm}{1pt}}
+
+    \vspace{2cm}
+    {\Large\itshape\color{InkGray}
+    Análisis riguroso de regresión lineal con diagnósticos exhaustivos\\
+    y visualizaciones animadas avanzadas}
+
+    \vspace{2cm}
+    {\techfont\small AUTOR: \textbf{EMANUEL QUINTANA SILVA}}
+
+    \vspace{0.5cm}
+    {\scriptsize\techfont\color{InkGray}
+    R 4.3+ • ggplot2 • lmtest • car • LaTeX animate • Sweave}
 \end{center}
 
-\section{Simulación de Monte Carlo}
-En este bloque, R genera una muestra aleatoria y LaTeX la reporta en tiempo real.
-No estamos escribiendo datos; estamos programando conocimiento.
+\newpage
 
-<<simulacion, echo=TRUE>>=
-# Generación de datos interplanetarios
-set.seed(2026)
-n <- 100
-presupuesto_nasa <- rnorm(n, mean = 500, sd = 50)
-misiones_exito <- 0.8 * presupuesto_nasa + rnorm(n, sd = 20)
+% === CONTENIDO ===
 
-# Regresión lineal automática
-modelo <- lm(misiones_exito ~ presupuesto_nasa)
-coef(modelo)
-@
+\section{Marco Teórico}
 
-\section{Visualización Estratégica}
-El siguiente gráfico es generado dinámicamente por el motor R 4.5.1 usando la paleta de colores Champagne del MIT.
+El modelo de regresión lineal simple constituye la base del análisis econométrico:
 
+\vspace{8pt}
 \begin{center}
-<<grafico_pro, echo=FALSE, fig.height=4, fig.width=6>>=
-par(mar = c(4, 4, 3, 1), bg = "#FDFCFA")
-plot(presupuesto_nasa, misiones_exito,
-     pch = 21, bg = "#B49B6E", col = "#0F0F0F", cex = 1.2,
-     main = "FRONTERA DE EFICIENCIA NASA 2026",
-     xlab = "Presupuesto (M$)", ylab = "Índice de Éxito",
-     col.main = "#001E50", family = "serif", frame.plot = FALSE)
-abline(modelo, col = "#001E50", lwd = 3)
-grid(col = "gray90")
-@
+\eqbox{Y_i = \beta_0 + \beta_1 X_i + u_i}
 \end{center}
+\vspace{8pt}
 
-\section{Análisis de Residuos}
-Para validar nuestra hipótesis asintótica, el modelo reporta un $R^2$ de:
-\textbf{\Sexpr{round(summary(modelo)$r.squared, 4)}}.
+donde $Y_i$ es la variable dependiente, $X_i$ la explicativa, $\beta_0$ y $\beta_1$ los parámetros, y $u_i$ el error estocástico.
 
-\begin{tcolorbox}[colback=VogueBlack, colframe=Champagne, arc=0pt, title=\techfont \tiny ESTATUS DE CÁLCULO]
-    \textcolor{white}{\scriptsize El modelo se ha compilado con éxito. Los resultados muestran una convergencia total en el ciclo de datos de Enero 2026.}
+\subsection{Supuestos Gauss-Markov}
+
+\begin{tcolorbox}[colback=TitaniumGray, colframe=NASAClassic, arc=0pt, boxrule=0.5pt, title=SUPUESTOS FUNDAMENTALES]
+\small
+\begin{enumerate}[leftmargin=15pt, itemsep=2pt]
+    \item \textbf{Linealidad:} El modelo es lineal en parámetros
+    \item \textbf{Media condicional cero:} $E(u_i|X_i) = 0$
+    \item \textbf{Homoscedasticidad:} $\text{Var}(u_i|X_i) = \sigma^2$
+    \item \textbf{No autocorrelación:} $\text{Cov}(u_i, u_j) = 0$ para $i \neq j$
+    \item \textbf{Normalidad:} $u_i \sim N(0, \sigma^2)$
+\end{enumerate}
 \end{tcolorbox}
+
+\subsection{Estimación por MCO}
+
+El método de Mínimos Cuadrados Ordinarios minimiza:
+
+\vspace{8pt}
+\begin{center}
+\eqbox{\min_{\beta_0, \beta_1} \sum_{i=1}^{n} (Y_i - \beta_0 - \beta_1 X_i)^2}
+\end{center}
+\vspace{8pt}
+
+Los estimadores resultantes son:
+
+\vspace{8pt}
+\begin{center}
+\eqbox{\hat{\beta}_1 = \frac{\sum (X_i - \bar{X})(Y_i - \bar{Y})}{\sum (X_i - \bar{X})^2}} \quad
+\eqbox{\hat{\beta}_0 = \bar{Y} - \hat{\beta}_1 \bar{X}}
+\end{center}
+\vspace{8pt}
+
+\section{Animación: Construcción de la Regresión}
+
+\begin{figure}[H]
+\centering
+\begin{animateinline}[loop, controls, buttonsize=1.2em]{8}
+\multiframe{20}{i=1+1}{
+\begin{tikzpicture}
+\begin{axis}[
+    width=11cm, height=6.5cm,
+    xlabel={Velocidad (mph)},
+    ylabel={Distancia (ft)},
+    title={\large Frame \i/20},
+    xmin=0, xmax=30,
+    ymin=0, ymax=130,
+    grid=major,
+    grid style={dashed, gray!30},
+    legend pos=north west
+]
+
+% Puntos
+\addplot[only marks, mark=*, color=NASAClassic, mark size=2pt]
+coordinates {
+(4,2)(4,10)(7,4)(7,22)(8,16)(9,10)(10,18)(10,26)(10,34)
+(11,17)(11,28)(12,14)(12,20)(12,24)(12,28)(13,26)(13,34)
+(13,34)(13,46)(14,26)(14,36)(14,60)(14,80)(15,20)(15,26)
+(15,54)(16,32)(16,40)(17,32)(17,40)(17,50)(18,42)(18,56)
+(18,76)(18,84)(19,36)(19,46)(19,68)(20,32)(20,48)(20,52)
+(20,56)(20,64)(22,66)(23,54)(24,70)(24,92)(24,93)(24,120)(25,85)
+};
+
+% Línea progresiva
+\pgfmathsetmacro{\xmax}{4 + (\i/20)*21}
+\addplot[domain=4:\xmax, samples=50, color=Champagne, very thick]
+{-17.579 + 3.932*x};
+
+\legend{Observaciones, Regresión}
+\end{axis}
+\end{tikzpicture}
+}
+\end{animateinline}
+\caption{Construcción progresiva de la línea de regresión}
+\end{figure}
+
+\section{Datos y Análisis Exploratorio}
+
+Utilizamos el dataset \texttt{cars} con 50 observaciones.
+
+<<descriptivos, results='asis'>>=
+desc <- data.frame(
+  Variable = c("Velocidad", "Distancia"),
+  Media = c(mean(cars$speed), mean(cars$dist)),
+  SD = c(sd(cars$speed), sd(cars$dist)),
+  Min = c(min(cars$speed), min(cars$dist)),
+  Max = c(max(cars$speed), max(cars$dist)),
+  N = c(nrow(cars), nrow(cars))
+)
+
+print(xtable(desc,
+       caption = "Estadísticas Descriptivas",
+       digits = 2),
+       include.rownames = FALSE,
+       caption.placement = "top",
+       booktabs = TRUE,
+       size = "small")
+@
+
+<<scatter, fig.cap="Relación entre Velocidad y Distancia de Frenado", fig.height=4>>=
+ggplot(cars, aes(x = speed, y = dist)) +
+  geom_point(color = "#002059", size = 2.5, alpha = 0.7) +
+  geom_smooth(method = "lm", se = TRUE, color = "#B59E76",
+              fill = "#B59E76", alpha = 0.2, linewidth = 1.2) +
+  labs(
+    title = "VELOCIDAD VS DISTANCIA DE FRENADO",
+    subtitle = paste("Correlación:", round(cor(cars$speed, cars$dist), 3)),
+    x = "Velocidad (mph)",
+    y = "Distancia (ft)"
+  ) +
+  theme_vogue()
+@
+
+\section{Estimación del Modelo}
+
+<<estimacion, echo=TRUE>>=
+modelo <- lm(dist ~ speed, data = cars)
+summary(modelo)
+@
+
+\vspace{8pt}
+\begin{center}
+\eqbox{\widehat{dist}_i = \Sexpr{round(coef(modelo)[1], 2)} + \Sexpr{round(coef(modelo)[2], 2)} \cdot speed_i}
+\end{center}
+\vspace{8pt}
+
+\textbf{Interpretación:}
+\begin{itemize}[leftmargin=15pt]
+\item Por cada mph adicional, la distancia aumenta \Sexpr{round(coef(modelo)[2], 2)} pies
+\item $R^2 = \Sexpr{round(summary(modelo)$r.squared, 4)}$ (\Sexpr{round(summary(modelo)$r.squared*100, 1)}\% de variabilidad explicada)
+\item Ambos coeficientes significativos (p < 0.001)
+\item Error estándar: \Sexpr{round(sigma(modelo), 2)} pies
+\end{itemize}
+
+\section{Diagnósticos}
+
+<<diagnosticos, fig.cap="Diagnósticos del Modelo", fig.height=7>>=
+par(mfrow = c(2, 2), cex.main = 1)
+plot(modelo, col = "#002059", pch = 19)
+@
+
+<<tests, echo=TRUE>>=
+# Tests diagnósticos
+jb_test <- jarque.bera.test(residuals(modelo))
+bp_test <- bptest(modelo)
+dw_test <- durbinWatsonTest(modelo)
+
+cat("=== TESTS DIAGNÓSTICOS ===\n\n")
+cat("1. Jarque-Bera (Normalidad):\n")
+cat("   Estadístico:", round(jb_test$statistic, 4), "\n")
+cat("   p-valor:", round(jb_test$p.value, 4), "\n\n")
+
+cat("2. Breusch-Pagan (Homoscedasticidad):\n")
+cat("   Estadístico:", round(bp_test$statistic, 4), "\n")
+cat("   p-valor:", round(bp_test$p.value, 4), "\n\n")
+
+cat("3. Durbin-Watson (Autocorrelación):\n")
+cat("   Estadístico:", round(dw_test$dw, 4), "\n")
+cat("   p-valor:", round(dw_test$p, 4), "\n")
+@
+
+\textbf{Resumen:}
+\begin{itemize}[leftmargin=15pt]
+\item Normalidad: \Sexpr{ifelse(jb_test$p.value > 0.05, "\\checkOK", "\\crossNO")}
+\item Homoscedasticidad: \Sexpr{ifelse(bp_test$p.value > 0.05, "\\checkOK", "\\crossNO")}
+\item Autocorrelación: \Sexpr{ifelse(abs(dw_test$dw - 2) < 0.5, "\\checkOK", "\\crossNO")}
+\end{itemize}
+
+\section{Errores Estándar Robustos}
+
+<<robustos, echo=TRUE>>=
+se_rob <- sqrt(diag(vcovHC(modelo, type = "HC3")))
+
+comp <- data.frame(
+  Coeficiente = c("Intercepto", "Velocidad"),
+  Estimación = coef(modelo),
+  SE_Clásico = sqrt(diag(vcov(modelo))),
+  SE_Robusto = se_rob,
+  Diferencia = (se_rob / sqrt(diag(vcov(modelo))) - 1) * 100
+)
+
+print(comp, digits = 4)
+@
+
+\section{Modelo Cuadrático}
+
+<<cuadratico, echo=TRUE>>=
+modelo_cuad <- lm(dist ~ speed + I(speed^2), data = cars)
+summary(modelo_cuad)
+anova(modelo, modelo_cuad)
+@
+
+\vspace{8pt}
+\begin{center}
+\eqbox{\widehat{dist}_i = \Sexpr{round(coef(modelo_cuad)[1], 2)} + \Sexpr{round(coef(modelo_cuad)[2], 2)} \cdot speed + \Sexpr{round(coef(modelo_cuad)[3], 3)} \cdot speed^2}
+\end{center}
+\vspace{8pt}
+
+Mejora: +\Sexpr{round((summary(modelo_cuad)$r.squared - summary(modelo)$r.squared)*100, 2)}\% en $R^2$
+
+<<comparacion, fig.cap="Comparación Lineal vs Cuadrático", fig.height=4.5>>=
+speed_seq <- seq(4, 25, 0.5)
+pred_lin <- predict(modelo, newdata = data.frame(speed = speed_seq))
+pred_cuad <- predict(modelo_cuad, newdata = data.frame(speed = speed_seq))
+
+ggplot(cars, aes(x = speed, y = dist)) +
+  geom_point(color = "#3C3C3C", size = 2, alpha = 0.6) +
+  geom_line(data = data.frame(speed = speed_seq, pred = pred_lin),
+            aes(y = pred, color = "Lineal"), linewidth = 1.2) +
+  geom_line(data = data.frame(speed = speed_seq, pred = pred_cuad),
+            aes(y = pred, color = "Cuadrático"), linewidth = 1.2) +
+  scale_color_manual(values = c("Lineal" = "#002059", "Cuadrático" = "#B4221E")) +
+  labs(title = "COMPARACIÓN DE MODELOS", x = "Velocidad (mph)",
+       y = "Distancia (ft)", color = "Modelo") +
+  theme_vogue()
+@
+
+\section{Análisis de Influencia}
+
+<<influencia, echo=TRUE>>=
+cooksd <- cooks.distance(modelo)
+cutoff <- 4 / nrow(cars)
+influyentes <- which(cooksd > cutoff)
+
+cat("Observaciones influyentes:", length(influyentes), "\n")
+if(length(influyentes) > 0) {
+  for(i in influyentes) {
+    cat(sprintf("  Obs %d: speed=%d, dist=%d, Cook's D=%.4f\n",
+                i, cars$speed[i], cars$dist[i], cooksd[i]))
+  }
+}
+@
+
+<<plot-cook, fig.cap="Distancia de Cook", fig.height=4>>=
+cook_df <- data.frame(
+  obs = 1:nrow(cars),
+  cooksd = cooksd,
+  influyente = cooksd > cutoff
+)
+
+ggplot(cook_df, aes(x = obs, y = cooksd)) +
+  geom_segment(aes(xend = obs, yend = 0, color = influyente), linewidth = 1) +
+  geom_point(aes(color = influyente), size = 2.5) +
+  geom_hline(yintercept = cutoff, linetype = "dashed", color = "#B4221E") +
+  scale_color_manual(values = c("FALSE" = "#002059", "TRUE" = "#B4221E")) +
+  labs(title = "DISTANCIA DE COOK", x = "Observación",
+       y = "Cook's D", color = "Influyente") +
+  theme_vogue()
+@
+
+\section{Validación Cruzada}
+
+<<loocv, echo=TRUE>>=
+n <- nrow(cars)
+errores <- numeric(n)
+
+for(i in 1:n) {
+  m_temp <- lm(dist ~ speed, data = cars[-i,])
+  errores[i] <- cars$dist[i] - predict(m_temp, newdata = cars[i,])
+}
+
+rmse_cv <- sqrt(mean(errores^2))
+mae_cv <- mean(abs(errores))
+
+cat("=== VALIDACIÓN CRUZADA (LOOCV) ===\n")
+cat("RMSE:", round(rmse_cv, 3), "ft\n")
+cat("MAE:", round(mae_cv, 3), "ft\n")
+cat("RMSE modelo completo:", round(sigma(modelo), 3), "ft\n")
+@
+
+<<plot-cv, fig.cap="Errores de Validación Cruzada", fig.height=4>>=
+ggplot(data.frame(error = errores), aes(x = error)) +
+  geom_histogram(aes(y = after_stat(density)), bins = 15,
+                 fill = "#002059", alpha = 0.6, color = "white") +
+  geom_density(color = "#B59E76", linewidth = 1.5) +
+  geom_vline(xintercept = 0, linetype = "dashed", color = "#B4221E") +
+  labs(title = "DISTRIBUCIÓN DE ERRORES LOOCV",
+       subtitle = paste("RMSE =", round(rmse_cv, 2), "| MAE =", round(mae_cv, 2)),
+       x = "Error (ft)", y = "Densidad") +
+  theme_vogue()
+@
+
+\section{Predicciones}
+
+<<prediccion, echo=TRUE>>=
+nuevos <- data.frame(speed = c(10, 15, 20, 25, 30))
+pred <- predict(modelo, newdata = nuevos, interval = "prediction")
+
+resultados <- data.frame(
+  Velocidad = nuevos$speed,
+  Predicción = pred[,1],
+  IC_Inf = pred[,2],
+  IC_Sup = pred[,3]
+)
+
+print(resultados, digits = 1)
+@
+
+<<plot-pred, fig.cap="Predicciones con Intervalos", fig.height=5>>=
+pred_df <- data.frame(
+  speed = seq(4, 30, 0.5)
+)
+pred_df <- cbind(pred_df, predict(modelo, newdata = pred_df, interval = "prediction"))
+
+ggplot(cars, aes(x = speed, y = dist)) +
+  geom_ribbon(data = pred_df, aes(ymin = lwr, ymax = upr, y = fit),
+              fill = "#B59E76", alpha = 0.2) +
+  geom_line(data = pred_df, aes(y = fit), color = "#002059", linewidth = 1.2) +
+  geom_point(color = "#3C3C3C", size = 2, alpha = 0.7) +
+  labs(title = "PREDICCIONES CON INTERVALOS AL 95%",
+       x = "Velocidad (mph)", y = "Distancia (ft)") +
+  theme_vogue()
+@
+
+\section{Comparación de Modelos}
+
+<<tabla-comparacion, results='asis'>>=
+comp_modelos <- data.frame(
+  Modelo = c("Lineal", "Cuadrático"),
+  R2 = c(summary(modelo)$r.squared, summary(modelo_cuad)$r.squared),
+  AIC = c(AIC(modelo), AIC(modelo_cuad)),
+  BIC = c(BIC(modelo), BIC(modelo_cuad)),
+  RMSE = c(sigma(modelo), sigma(modelo_cuad))
+)
+
+print(xtable(comp_modelos, caption = "Comparación de Modelos", digits = 3),
+      include.rownames = FALSE, caption.placement = "top", booktabs = TRUE)
+@
+
+\section{Conclusiones}
+
+\begin{tcolorbox}[colback=SuccessGreen!10, colframe=SuccessGreen, arc=0pt,
+                  boxrule=0.8pt, title=HALLAZGOS PRINCIPALES]
+\begin{enumerate}[leftmargin=15pt, itemsep=3pt]
+    \item Relación \critical{significativa} entre velocidad y distancia ($\beta_1 = \Sexpr{round(coef(modelo)[2], 2)}$, p < 0.001)
+
+    \item $R^2 = \Sexpr{round(summary(modelo)$r.squared, 4)}$ (\Sexpr{round(summary(modelo)$r.squared*100, 1)}\% de variabilidad explicada)
+
+    \item Supuestos: \Sexpr{ifelse(jb_test$p.value > 0.05 & bp_test$p.value > 0.05, "Cumplidos razonablemente", "Requieren atención")}
+
+    \item Modelo cuadrático mejora $R^2$ en \Sexpr{round((summary(modelo_cuad)$r.squared - summary(modelo)$r.squared)*100, 2)}\%
+
+    \item Validación cruzada: RMSE = \Sexpr{round(rmse_cv, 2)} ft
+
+    \item \Sexpr{length(influyentes)} observaciones influyentes detectadas
+\end{enumerate}
+\end{tcolorbox}
+
+\subsection{Limitaciones y Recomendaciones}
+
+\textbf{Limitaciones:}
+\begin{itemize}[leftmargin=15pt, itemsep=2pt]
+\item Dataset histórico (1920s) - tecnología obsoleta
+\item Muestra pequeña (n=50)
+\item Variables omitidas (clima, pavimento, peso)
+\end{itemize}
+
+\textbf{Recomendaciones:}
+\begin{itemize}[leftmargin=15pt, itemsep=2pt]
+\item Usar errores robustos para inferencia
+\item Replicar con datos modernos (NHTSA)
+\item Explorar modelos no lineales (GAMs, splines)
+\item Validación con k-fold cross-validation
+\end{itemize}
+
+\section{Referencias}
+
+\begin{itemize}[leftmargin=15pt, itemsep=2pt]
+    \item Wooldridge, J.M. (2020). \textit{Introductory Econometrics}. 7th ed.
+    \item Greene, W.H. (2018). \textit{Econometric Analysis}. 8th ed.
+    \item R Core Team (2024). \textit{R: A Language for Statistical Computing}.
+    \item Wickham, H. (2016). \textit{ggplot2: Elegant Graphics}. Springer.
+\end{itemize}
 
 \vfill
 \hrule height 0.5pt
+\vspace{6pt}
 \begin{center}
-    \tiny \techfont \textcolor{VogueBlack}{REPORTE GENERADO AUTOMÁTICAMENTE \textbar \ REPRODUCIBILIDAD 100\%}
+\scriptsize\techfont
+\textcolor{VogueBlack}{ECONOMETRÍA 2026} |
+\textcolor{Champagne}{EMANUEL QUINTANA SILVA} |
+UPTC
+
+\vspace{2pt}
+\textit{Documento generado con Sweave + R + LaTeX animate}
 \end{center}
 
 \end{document}
