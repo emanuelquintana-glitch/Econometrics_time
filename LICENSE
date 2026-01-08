@@ -1,0 +1,76 @@
+MIT License
+
+Copyright (c) 2025 Emanuel Rodríguez
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+---
+
+## Additional Terms for Academic Use
+
+This project is designed for educational purposes in econometrics and statistics.
+
+### Citation
+
+If you use this material in your academic work, please cite as:
+
+```
+Rodríguez, E. (2025). Econometrics Time Series: A Comprehensive Computational
+Econometrics Framework. GitHub. https://github.com/emanuelquintana-glitch/Econometrics_time
+```
+
+### Data and References
+
+- All data used in examples should be properly cited according to their original sources
+- External packages and libraries retain their original licenses
+- Statistical methodologies and algorithms referenced follow standard econometric literature
+
+### Disclaimer
+
+This educational material is provided for learning purposes. Users should:
+- Verify all statistical results independently
+- Consult original sources for critical applications
+- Apply appropriate statistical rigor in research contexts
+- Follow ethical guidelines in data analysis and reporting
+
+---
+
+## Third-Party Components
+
+This project uses the following open-source components:
+
+- **R**: GPL-2 | GPL-3
+- **Quarto**: GPL-2
+- **PostgreSQL**: PostgreSQL License
+- **LaTeX**: LaTeX Project Public License
+- **Python**: PSF License
+- **Julia**: MIT License
+- **Rust**: Apache-2.0 OR MIT
+
+See respective project documentation for full license terms.
+
+---
+
+## Contact
+
+For questions about this license or project:
+- GitHub: [@emanuelquintana-glitch](https://github.com/emanuelquintana-glitch)
+- Project URL: https://github.com/emanuelquintana-glitch/Econometrics_time
+
+Last updated: January 7, 2025

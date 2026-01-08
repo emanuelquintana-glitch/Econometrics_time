@@ -2,7 +2,73 @@
 title: "References"
 ---
 
-# References
+# Referencias {.unnumbered}
+
+Esta sección contiene todas las referencias bibliográficas utilizadas en el proyecto de Econometría de Series de Tiempo.
+
+## Libros de Texto Fundamentales
+
+- Gujarati, D. N., & Porter, D. C. (2009). *Econometría* (5a ed.). McGraw-Hill.
+- Wooldridge, J. M. (2015). *Introductory Econometrics: A Modern Approach* (6a ed.). Cengage Learning.
+- Greene, W. H. (2018). *Econometric Analysis* (8a ed.). Pearson.
+- Stock, J. H., & Watson, M. W. (2020). *Introduction to Econometrics* (4a ed.). Pearson.
+
+## Series de Tiempo
+
+- Hamilton, J. D. (1994). *Time Series Analysis*. Princeton University Press.
+- Enders, W. (2015). *Applied Econometric Time Series* (4a ed.). Wiley.
+- Box, G. E. P., Jenkins, G. M., Reinsel, G. C., & Ljung, G. M. (2015). *Time Series Analysis: Forecasting and Control* (5a ed.). Wiley.
+- Tsay, R. S. (2010). *Analysis of Financial Time Series* (3a ed.). Wiley.
+
+## Datos Panel
+
+- Baltagi, B. H. (2013). *Econometric Analysis of Panel Data* (5a ed.). Wiley.
+- Arellano, M. (2003). *Panel Data Econometrics*. Oxford University Press.
+- Wooldridge, J. M. (2010). *Econometric Analysis of Cross Section and Panel Data* (2a ed.). MIT Press.
+
+## Inferencia Causal
+
+- Angrist, J. D., & Pischke, J.-S. (2009). *Mostly Harmless Econometrics: An Empiricist's Companion*. Princeton University Press.
+- Angrist, J. D., & Pischke, J.-S. (2014). *Mastering 'Metrics: The Path from Cause to Effect*. Princeton University Press.
+- Imbens, G. W., & Rubin, D. B. (2015). *Causal Inference for Statistics, Social, and Biomedical Sciences: An Introduction*. Cambridge University Press.
+
+## Econometría Computacional
+
+- Kleiber, C., & Zeileis, A. (2008). *Applied Econometrics with R*. Springer.
+- Heiss, F. (2020). *Using R for Introductory Econometrics* (2a ed.). Createspace Independent Publishing Platform.
+- Wickham, H., & Grolemund, G. (2016). *R for Data Science*. O'Reilly Media.
+
+## Pronósticos
+
+- Hyndman, R. J., & Athanasopoulos, G. (2018). *Forecasting: Principles and Practice* (2a ed.). OTexts. https://otexts.com/fpp2/
+
+## Artículos Seminales
+
+- Durbin, J., & Watson, G. S. (1950). Testing for Serial Correlation in Least Squares Regression I. *Biometrika*, 37(3/4), 409-428.
+- White, H. (1980). A Heteroskedasticity-Consistent Covariance Matrix Estimator and a Direct Test for Heteroskedasticity. *Econometrica*, 48(4), 817-838.
+- Engle, R. F. (1982). Autoregressive Conditional Heteroscedasticity with Estimates of the Variance of United Kingdom Inflation. *Econometrica*, 50(4), 987-1007.
+- Engle, R. F., & Granger, C. W. J. (1987). Co-integration and Error Correction: Representation, Estimation, and Testing. *Econometrica*, 55(2), 251-276.
+
+## Recursos en Línea
+
+- Federal Reserve Economic Data (FRED). https://fred.stlouisfed.org/
+- World Bank Open Data. https://data.worldbank.org/
+- OECD Data. https://data.oecd.org/
+
+## Software y Herramientas
+
+- R Core Team (2024). *R: A Language and Environment for Statistical Computing*. R Foundation for Statistical Computing. https://www.R-project.org/
+- Quarto Team (2024). *Quarto: Scientific and Technical Publishing System*. Posit Software, PBC. https://quarto.org/
+
+---
+
+::: {.callout-note}
+## Nota sobre las Referencias
+
+Esta bibliografía representa una selección curada de recursos esenciales en econometría. Para la lista completa de referencias en formato BibTeX, consulta el archivo `references.bib` en el repositorio del proyecto.
+:::
+
+# Referencias Citadas {.unnumbered}
 
 ::: {#refs}
 :::

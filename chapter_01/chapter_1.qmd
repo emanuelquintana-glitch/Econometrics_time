@@ -1,0 +1,1159 @@
+---
+title: "Capítulo 1: ¿Qué es la Econometría?"
+subtitle: "Fundamentos, Metodología y Naturaleza de los Datos Económicos"
+author: "Emanuel Quintana Silva"
+date: last-modified
+date-format: "DD/MM/YYYY"
+lang: es
+number-sections: true
+number-depth: 3
+crossref:
+  fig-title: "Figura"
+  tbl-title: "Tabla"
+  eq-prefix: "Ec."
+bibliography: references.bib
+csl: ../templates/apa.csl
+format:
+  html:
+    theme: 
+      - cosmo
+      - ../styles.css
+    toc: true
+    toc-depth: 4
+    toc-location: left
+    toc-title: "Contenido"
+    code-fold: show
+    code-tools: true
+    code-line-numbers: true
+    df-print: kable
+    fig-align: center
+    fig-width: 8
+    fig-height: 5
+    standalone: true
+    embed-resources: false
+    link-external-newwindow: true
+    smooth-scroll: true
+execute:
+  warning: false
+  message: false
+  cache: false
+  freeze: auto
+knitr:
+  opts_chunk:
+    comment: "#>"
+    fig.path: "figures/"
+    dpi: 300
+---
+
+```{r setup, include=FALSE}
+# Cargar librerías necesarias
+library(tidyverse)
+library(knitr)
+library(kableExtra)
+library(ggplot2)
+library(patchwork)
+library(scales)
+
+# Configuración de tema para gráficos
+theme_set(theme_minimal(base_size = 12))
+
+# Colores personalizados (paleta Vogue-MIT)
+colors_uptc <- c(
+  primary = "#002060",      # NASA Blue
+  secondary = "#B59E76",    # Champagne
+  accent = "#B41E1E",       # Critical Red
+  light = "#F2F2F2",        # Titanium Gray
+  dark = "#080808"          # Vogue Black
+)
+
+# Función para formatear números
+format_num <- function(x, decimals = 2) {
+  format(round(x, decimals), nsmall = decimals, big.mark = ",")
+}
+```
+
+::: {.callout-note icon=false}
+## Objetivos de Aprendizaje
+
+Al finalizar este capítulo, el estudiante será capaz de:
+
+1. **Definir** qué es la econometría y distinguir su alcance frente a otras disciplinas económicas
+2. **Identificar** las principales fuentes de datos económicos y sus características
+3. **Clasificar** los tipos de datos econométricos: series temporales, corte transversal y panel
+4. **Describir** la metodología econométrica clásica en sus ocho pasos fundamentales
+5. **Reconocer** las limitaciones y peligros del análisis econométrico aplicado
+6. **Comprender** el rol de la econometría en la validación empírica de teorías económicas
+:::
+
+---
+
+# Introducción: La Naturaleza de la Econometría
+
+## ¿Por qué existe la econometría?
+
+La economía, como ciencia social, se enfrenta a un desafío fundamental que la distingue de las ciencias naturales: **la imposibilidad de realizar experimentos controlados** en la mayoría de los casos. No podemos, por razones éticas y prácticas, crear dos economías idénticas y someter una de ellas a una política fiscal específica mientras mantenemos la otra como grupo de control.
+
+Este problema genera dos consecuencias inmediatas:
+
+1. **Teorías cualitativas**: La teoría económica nos proporciona relaciones cualitativas (e.g., "un aumento en el precio reduce la cantidad demandada"), pero rara vez especifica magnitudes exactas.
+
+2. **Múltiples causas simultáneas**: En la realidad económica, múltiples factores operan simultáneamente, dificultando el aislamiento del efecto de una variable específica.
+
+La **econometría** surge como respuesta a estos desafíos, proporcionando herramientas estadísticas y matemáticas para:
+
+- Cuantificar relaciones económicas teóricas
+- Estimar magnitudes de efectos causales
+- Probar la validez empírica de hipótesis económicas
+- Predecir valores futuros de variables económicas
+- Simular el impacto de políticas económicas alternativas
+
+---
+
+# Definición y Alcance de la Econometría
+
+## Definición formal
+
+::: {.callout-important icon=false}
+## Definición: Econometría
+
+La **econometría** es la rama de la economía que utiliza herramientas de la **teoría económica**, las **matemáticas** y la **inferencia estadística** para el análisis cuantitativo de fenómenos económicos reales, con el objetivo principal de dar **contenido empírico** a las proposiciones de la teoría económica.
+
+*Fuente*: @gujarati2009econometria, p. 1
+:::
+
+Esta definición resalta tres componentes esenciales:
+
+1. **Teoría económica**: Proporciona las hipótesis y relaciones cualitativas a testar
+2. **Matemáticas**: Formaliza las relaciones en ecuaciones precisas
+3. **Estadística**: Permite inferir sobre poblaciones a partir de muestras y cuantificar la incertidumbre
+
+## La econometría como amalgama
+
+Podemos visualizar la econometría en la intersección de cuatro disciplinas:
+
+```{r econometrics-venn, fig.cap="La econometría como intersección de disciplinas", echo=FALSE}
+# Crear diagrama conceptual
+library(ggforce)
+
+# Datos para círculos
+circles <- data.frame(
+  x = c(1, 3, 1, 3),
+  y = c(3, 3, 1, 1),
+  r = c(1, 1, 1, 1),
+  label = c("Teoría\nEconómica", "Economía\nMatemática",
+            "Estadística\nEconómica", "Estadística\nMatemática")
+)
+
+# Crear gráfico
+ggplot() +
+  geom_circle(data = circles, aes(x0 = x, y0 = y, r = r, fill = label), 
+              alpha = 0.3, color = colors_uptc["primary"], size = 1) +
+  geom_text(data = circles, aes(x = x, y = y, label = label),
+            size = 4, fontface = "bold", color = colors_uptc["dark"]) +
+  annotate("text", x = 2, y = 2, label = "ECONOMETRÍA",
+           size = 6, fontface = "bold", color = colors_uptc["accent"]) +
+  scale_fill_manual(values = c(colors_uptc["primary"], colors_uptc["secondary"],
+                                colors_uptc["light"], colors_uptc["accent"])) +
+  coord_fixed() +
+  theme_void() +
+  theme(legend.position = "none")
+```
+
+### Rol de cada disciplina
+
+```{r disciplines-table, echo=FALSE}
+disciplines <- tribble(
+  ~Disciplina, ~Contribución, ~Ejemplo,
+  "Teoría Económica", "Postula hipótesis sobre relaciones económicas", "Ley de demanda: P↑ → Q↓",
+  "Economía Matemática", "Expresa teorías en forma matemática", "Q = α - βP (β > 0)",
+  "Estadística Económica", "Recolecta y organiza datos", "Precios y cantidades observadas",
+  "Estadística Matemática", "Proporciona herramientas de inferencia", "Estimación de β, tests de hipótesis"
+)
+
+kable(disciplines,
+      caption = "Contribuciones de las disciplinas constituyentes de la econometría",
+      booktabs = TRUE,
+      format = "html") %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed"),
+                full_width = FALSE,
+                position = "center") %>%
+  column_spec(1, bold = TRUE, color = colors_uptc["primary"]) %>%
+  column_spec(2, width = "40%") %>%
+  column_spec(3, width = "30%", italic = TRUE)
+```
+
+## Objetivos de la econometría
+
+La econometría persigue cuatro objetivos principales [@wooldridge2015introductory, Cap. 1]:
+
+### 1. Estimación de relaciones económicas
+
+**Propósito**: Cuantificar las relaciones postuladas por la teoría económica.
+
+**Ejemplo**: La teoría keynesiana postula que el consumo depende del ingreso. La econometría estima:
+
+$$C_t = \beta_0 + \beta_1 Y_t + u_t$$
+
+donde $\beta_1$ es la **propensión marginal a consumir** (PMC). Un resultado empírico podría ser $\hat{\beta}_1 = 0.85$, indicando que por cada dólar adicional de ingreso, el consumo aumenta en 85 centavos.
+
+### 2. Prueba de hipótesis económicas
+
+**Propósito**: Contrastar empíricamente proposiciones teóricas.
+
+**Ejemplo**: Probar la hipótesis de expectativas racionales en mercados financieros, o verificar si la ley de Okun se cumple en una economía específica.
+
+### 3. Pronóstico de variables económicas
+
+**Propósito**: Predecir valores futuros de variables de interés.
+
+**Ejemplo**: Bancos centrales pronostican inflación, PIB y desempleo para diseñar política monetaria. Empresas pronostican demanda para planificar producción.
+
+### 4. Evaluación de políticas económicas
+
+**Propósito**: Simular el impacto de intervenciones de política antes de implementarlas.
+
+**Ejemplo**: Estimar cómo un aumento del salario mínimo afectaría el empleo, o cómo una reforma tributaria modificaría la recaudación fiscal.
+
+---
+
+# Tipos de Datos Económicos
+
+La naturaleza de los datos económicos determina las técnicas econométricas apropiadas. Existen tres tipos fundamentales:
+
+## Series de tiempo (Time Series)
+
+::: {.callout-tip icon=false}
+## Definición: Series de Tiempo
+
+Una **serie de tiempo** es un conjunto de observaciones de una variable recolectadas en diferentes momentos del tiempo, típicamente a intervalos regulares.
+
+**Notación**: $\{Y_t: t = 1, 2, \ldots, T\}$
+:::
+
+### Características
+
+- **Orden temporal**: El orden de las observaciones es significativo
+- **Dependencia**: Observaciones cercanas en el tiempo suelen estar correlacionadas (autocorrelación)
+- **Frecuencia**: Puede ser diaria, semanal, mensual, trimestral, anual, etc.
+
+### Ejemplos
+
+```{r time-series-examples, echo=FALSE}
+ts_examples <- tribble(
+  ~Variable, ~Frecuencia, ~Fuente, ~Período,
+  "PIB real", "Trimestral", "DANE", "2000-2025",
+  "Tasa de cambio COP/USD", "Diaria", "Banco de la República", "2010-2025",
+  "Tasa de desempleo", "Mensual", "DANE", "2001-2025",
+  "Índice de precios al consumidor", "Mensual", "DANE", "1990-2025",
+  "Producción industrial", "Mensual", "DANE", "2000-2025"
+)
+
+kable(ts_examples,
+      caption = "Ejemplos de series de tiempo económicas en Colombia",
+      booktabs = TRUE) %>%
+  kable_styling(bootstrap_options = c("striped", "hover"))
+```
+
+### Visualización: Serie de tiempo simulada
+
+```{r plot-time-series, fig.cap="Ejemplo de serie de tiempo: PIB trimestral simulado"}
+# Simular PIB trimestral con tendencia y estacionalidad
+set.seed(2026)
+n_quarters <- 100
+time <- seq.Date(from = as.Date("2000-01-01"), by = "quarter", length.out = n_quarters)
+
+# Componentes
+trend <- seq(100, 200, length.out = n_quarters)
+seasonal <- 5 * sin(2 * pi * seq(0, 24.75, length.out = n_quarters))
+cycle <- 10 * sin(2 * pi * seq(0, 8.25, length.out = n_quarters) / 8)
+noise <- rnorm(n_quarters, 0, 3)
+
+gdp <- trend + seasonal + cycle + noise
+
+# Crear data frame
+ts_data <- tibble(
+  date = time,
+  gdp = gdp
+)
+
+# Gráfico
+ggplot(ts_data, aes(x = date, y = gdp)) +
+  geom_line(color = colors_uptc["primary"], size = 0.8) +
+  geom_smooth(method = "loess", se = FALSE, 
+              color = colors_uptc["secondary"], linetype = "dashed") +
+  labs(
+    title = "Serie de Tiempo: PIB Trimestral (Simulado)",
+    subtitle = "Tendencia creciente con componentes estacional y cíclico",
+    x = "Fecha",
+    y = "PIB (miles de millones)"
+  ) +
+  scale_y_continuous(labels = comma) +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(face = "bold", size = 14),
+    plot.subtitle = element_text(size = 11, color = "gray40")
+  )
+```
+
+## Datos de corte transversal (Cross-sectional)
+
+::: {.callout-tip icon=false}
+## Definición: Corte Transversal
+
+Los **datos de corte transversal** consisten en observaciones de múltiples unidades (individuos, empresas, países) recolectadas en un único momento del tiempo.
+
+**Notación**: $\{Y_i: i = 1, 2, \ldots, N\}$
+:::
+
+### Características
+
+- **Orden irrelevante**: No existe ordenamiento natural de las observaciones
+- **Independencia**: Típicamente se asume que las observaciones son independientes entre sí
+- **Heterogeneidad**: Las unidades pueden diferir en características observadas y no observadas
+
+### Ejemplos
+
+```{r cross-section-examples, echo=FALSE}
+cs_examples <- tribble(
+  ~Variable, ~Unidades, ~Fuente, ~Año,
+  "Ingresos laborales", "1000 trabajadores", "GEIH", "2023",
+  "Gasto en educación", "500 hogares", "Encuesta de calidad de vida", "2022",
+  "Inversión extranjera", "150 países", "Banco Mundial", "2024",
+  "Rendimiento académico", "5000 estudiantes", "Pruebas Saber 11", "2023",
+  "Tamaño de empresa", "800 firmas", "Supersociedades", "2024"
+)
+
+kable(cs_examples,
+      caption = "Ejemplos de datos de corte transversal",
+      booktabs = TRUE) %>%
+  kable_styling(bootstrap_options = c("striped", "hover"))
+```
+
+### Visualización: Corte transversal simulado
+
+```{r plot-cross-section, fig.cap="Ejemplo de corte transversal: Ingreso vs Educación"}
+# Simular datos de corte transversal
+set.seed(2026)
+n_obs <- 500
+
+cross_section <- tibble(
+  education = round(rnorm(n_obs, mean = 12, sd = 3)),
+  experience = round(runif(n_obs, 0, 30)),
+  income = 800 + 150 * education + 40 * experience + rnorm(n_obs, 0, 500)
+) %>%
+  filter(education >= 0, income > 0)
+
+# Gráfico
+ggplot(cross_section, aes(x = education, y = income)) +
+  geom_point(alpha = 0.5, color = colors_uptc["primary"]) +
+  geom_smooth(method = "lm", se = TRUE, 
+              color = colors_uptc["accent"], fill = colors_uptc["secondary"]) +
+  labs(
+    title = "Datos de Corte Transversal: Ingreso vs Educación",
+    subtitle = "500 trabajadores observados en 2023",
+    x = "Años de educación",
+    y = "Ingreso mensual (miles de pesos)"
+  ) +
+  scale_y_continuous(labels = comma) +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(face = "bold", size = 14),
+    plot.subtitle = element_text(size = 11, color = "gray40")
+  )
+```
+
+## Datos de panel (Panel Data / Longitudinal Data)
+
+::: {.callout-tip icon=false}
+## Definición: Datos de Panel
+
+Los **datos de panel** combinan dimensiones de corte transversal y temporal, siguiendo a las mismas unidades a lo largo del tiempo.
+
+**Notación**: $\{Y_{it}: i = 1, \ldots, N; \, t = 1, \ldots, T\}$
+:::
+
+### Características
+
+- **Doble dimensión**: Variación entre individuos (*between*) y dentro de individuos (*within*)
+- **Control de heterogeneidad**: Permite controlar factores no observados constantes en el tiempo
+- **Mayor información**: Proporciona más variabilidad que solo corte transversal o solo serie temporal
+
+### Ventajas de los datos de panel
+
+1. **Control de heterogeneidad no observada**: Factores individuales invariantes en el tiempo (habilidad innata, cultura empresarial) pueden ser controlados
+
+2. **Mayor eficiencia estadística**: Más observaciones implican estimaciones más precisas
+
+3. **Análisis de dinámica**: Permite estudiar cómo cambian las variables a lo largo del tiempo
+
+4. **Identificación de efectos causales**: Facilita el diseño de cuasi-experimentos (diferencias-en-diferencias)
+
+### Tipos de paneles
+
+```{r panel-types, echo=FALSE}
+panel_types <- tribble(
+  ~Tipo, ~Característica, ~Ejemplo,
+  "Panel balanceado", "Todas las unidades observadas en todos los períodos", "1000 hogares seguidos 5 años completos",
+  "Panel desbalanceado", "Observaciones faltantes (attrition)", "1000 hogares, algunos salen del estudio",
+  "Panel corto", "Muchas unidades, pocos períodos (N grande, T pequeño)", "5000 empresas, 3 años",
+  "Panel largo", "Pocas unidades, muchos períodos (N pequeño, T grande)", "10 países, 50 años"
+)
+
+kable(panel_types,
+      caption = "Tipos de datos de panel",
+      booktabs = TRUE) %>%
+  kable_styling(bootstrap_options = c("striped", "hover")) %>%
+  column_spec(1, bold = TRUE, color = colors_uptc["primary"])
+```
+
+### Visualización: Panel data simulado
+
+```{r plot-panel-data, fig.cap="Ejemplo de datos de panel: Ingresos de 10 hogares a lo largo de 5 años"}
+# Simular panel data
+set.seed(2026)
+n_households <- 10
+n_years <- 5
+
+panel_data <- expand_grid(
+  household_id = 1:n_households,
+  year = 2019:2023
+) %>%
+  mutate(
+    # Efectos fijos individuales (heterogeneidad no observada)
+    alpha_i = rep(rnorm(n_households, 50, 15), each = n_years),
+    # Tendencia temporal común
+    time_effect = (year - 2019) * 5,
+    # Ingreso
+    income = alpha_i + time_effect + rnorm(n_households * n_years, 0, 5),
+    household_factor = factor(household_id)
+  )
+
+# Gráfico
+ggplot(panel_data, aes(x = year, y = income, group = household_id, color = household_factor)) +
+  geom_line(size = 1) +
+  geom_point(size = 2) +
+  labs(
+    title = "Datos de Panel: Ingresos de 10 Hogares (2019-2023)",
+    subtitle = "Cada línea representa un hogar individual",
+    x = "Año",
+    y = "Ingreso anual (millones de pesos)",
+    color = "Hogar"
+  ) +
+  scale_y_continuous(labels = comma) +
+  scale_color_viridis_d() +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(face = "bold", size = 14),
+    plot.subtitle = element_text(size = 11, color = "gray40"),
+    legend.position = "right"
+  )
+```
+
+---
+
+# La Metodología Econométrica Clásica
+
+@gujarati2009econometria describe la metodología econométrica tradicional como un proceso de **ocho pasos** sistemáticos. Esta estructura proporciona un marco riguroso para la investigación empírica.
+
+## Los 8 pasos de la metodología econométrica
+
+```{r methodology-flowchart, echo=FALSE, fig.cap="Diagrama de flujo de la metodología econométrica clásica", fig.width=10, fig.height=8}
+# Crear data frame para diagrama de flujo
+steps <- tibble(
+  step = 1:8,
+  label = c(
+    "1. Declaración de teoría\no hipótesis",
+    "2. Especificación del\nmodelo matemático",
+    "3. Especificación del\nmodelo econométrico",
+    "4. Obtención\nde datos",
+    "5. Estimación de\nparámetros",
+    "6. Prueba de\nhipótesis",
+    "7. Pronóstico o\npredicción",
+    "8. Uso para control\no política"
+  ),
+  x = c(2, 2, 2, 2, 2, 2, 2, 2),
+  y = c(8, 7, 6, 5, 4, 3, 2, 1)
+)
+
+# Crear gráfico
+ggplot(steps, aes(x = x, y = y)) +
+  geom_rect(aes(xmin = x - 0.8, xmax = x + 0.8,
+                ymin = y - 0.3, ymax = y + 0.3),
+            fill = colors_uptc["light"],
+            color = colors_uptc["primary"],
+            size = 1.5) +
+  geom_text(aes(label = label), size = 3.5, fontface = "bold",
+            color = colors_uptc["dark"]) +
+  geom_segment(data = steps[-8,],
+               aes(x = x, y = y - 0.3, xend = x, yend = y - 0.7),
+               arrow = arrow(length = unit(0.3, "cm"), type = "closed"),
+               color = colors_uptc["secondary"], size = 1.2) +
+  ylim(0.5, 8.5) +
+  xlim(0.5, 3.5) +
+  theme_void() +
+  labs(title = "Metodología Econométrica Clásica: 8 Pasos",
+       subtitle = "Proceso sistemático desde la teoría hasta la política económica") +
+  theme(
+    plot.title = element_text(hjust = 0.5, face = "bold", size = 16),
+    plot.subtitle = element_text(hjust = 0.5, size = 12, color = "gray40")
+  )
+```
+
+### Paso 1: Declaración de teoría o hipótesis
+
+**Objetivo**: Establecer la proposición económica que se desea investigar.
+
+**Ejemplo**: La **ley de demanda** establece que, ceteris paribus, existe una relación inversa entre el precio de un bien y la cantidad demandada.
+
+### Paso 2: Especificación del modelo matemático
+
+**Objetivo**: Traducir la teoría cualitativa en una ecuación matemática.
+
+**Ejemplo**: Función de demanda lineal:
+$$Q_d = \beta_0 - \beta_1 P$$
+
+donde:
+- $Q_d$: Cantidad demandada
+- $P$: Precio
+- $\beta_0$: Intercepto (demanda cuando $P=0$)
+- $\beta_1$: Pendiente (cambio en $Q_d$ por unidad de cambio en $P$)
+
+**Expectativa teórica**: $\beta_1 > 0$ (relación inversa)
+
+### Paso 3: Especificación del modelo econométrico
+
+**Objetivo**: Reconocer que las relaciones económicas son **estocásticas** (no determinísticas) y agregar un término de error.
+
+**Justificación del término de error**:
+1. Variables omitidas (otros factores no incluidos explícitamente)
+2. Errores de medición en las variables
+3. Forma funcional incorrecta o aproximada
+4. Aleatoriedad inherente del comportamiento humano
+
+**Modelo econométrico**:
+$$Q_d = \beta_0 - \beta_1 P + u$$
+
+donde $u$ es el **término de error estocástico** o **perturbación**.
+
+**Supuestos sobre** $u$:
+- $E(u) = 0$: Error promedio es cero
+- $\text{Var}(u) = \sigma^2$: Varianza constante (homoscedasticidad)
+- $\text{Cov}(u_i, u_j) = 0$ para $i \neq j$: Errores no correlacionados
+
+### Paso 4: Obtención de datos
+
+**Objetivo**: Recolectar datos observacionales para las variables del modelo.
+
+**Fuentes de datos económicos en Colombia**:
+
+```{r data-sources, echo=FALSE}
+data_sources <- tribble(
+  ~Institución, ~Tipo_de_datos, ~URL,
+  "DANE", "Encuestas de hogares, empresas, precios", "www.dane.gov.co",
+  "Banco de la República", "Agregados monetarios, tasa de cambio", "www.banrep.gov.co",
+  "Ministerio de Hacienda", "Finanzas públicas, presupuesto", "www.minhacienda.gov.co",
+  "DNP", "Estadísticas de desarrollo, pobreza", "www.dnp.gov.co",
+  "Supersociedades", "Estados financieros de empresas", "www.supersociedades.gov.co"
+)
+
+kable(data_sources,
+      caption = "Principales fuentes de datos económicos en Colombia",
+      col.names = c("Institución", "Tipo de datos", "URL"),
+      booktabs = TRUE) %>%
+  kable_styling(bootstrap_options = c("striped", "hover")) %>%
+  column_spec(1, bold = TRUE, color = colors_uptc["primary"])
+```
+
+**Desafíos en la obtención de datos**:
+- **Disponibilidad**: No siempre existen datos para las variables teóricas
+- **Calidad**: Errores de medición, datos faltantes, revisiones
+- **Periodicidad**: Diferentes variables pueden tener frecuencias distintas
+- **Confidencialidad**: Restricciones legales al acceso de microdatos
+
+### Paso 5: Estimación de parámetros
+
+**Objetivo**: Utilizar los datos para obtener estimaciones numéricas de $\beta_0$ y $\beta_1$.
+
+**Método principal**: **Mínimos Cuadrados Ordinarios (OLS)**
+
+**Principio de OLS**: Minimizar la suma de los cuadrados de los residuos:
+$$\min_{\hat{\beta}_0, \hat{\beta}_1} \sum_{i=1}^n (Q_{d,i} - \hat{\beta}_0 + \hat{\beta}_1 P_i)^2$$
+
+**Fórmulas de OLS** (caso bivariado):
+$$\hat{\beta}_1 = \frac{\sum (P_i - \bar{P})(Q_{d,i} - \bar{Q}_d)}{\sum (P_i - \bar{P})^2} = \frac{\text{Cov}(P, Q_d)}{\text{Var}(P)}$$
+
+$$\hat{\beta}_0 = \bar{Q}_d + \hat{\beta}_1 \bar{P}$$
+
+**Ejemplo numérico simulado**:
+
+```{r ols-estimation}
+# Simular datos de demanda
+set.seed(2026)
+n <- 100
+price <- runif(n, min = 10, max = 50)
+quantity <- 200 - 3 * price + rnorm(n, mean = 0, sd = 10)
+
+# Estimar por OLS
+demand_model <- lm(quantity ~ price)
+beta_0_hat <- coef(demand_model)[1]
+beta_1_hat <- coef(demand_model)[2]
+
+# Mostrar resultados
+cat("Estimaciones OLS:\n")
+cat(sprintf("β₀ (intercepto) = %.2f\n", beta_0_hat))
+cat(sprintf("β₁ (pendiente)  = %.2f\n", beta_1_hat))
+cat("\nInterpretación: Por cada peso de aumento en el precio,\n")
+cat(sprintf("la cantidad demandada disminuye en %.2f unidades.\n", abs(beta_1_hat)))
+```
+
+```{r plot-ols-fit, fig.cap="Ajuste OLS: Datos observados y línea de regresión estimada"}
+# Crear data frame
+demand_data <- tibble(
+  price = price,
+  quantity = quantity,
+  fitted = fitted(demand_model)
+)
+
+# Gráfico
+ggplot(demand_data, aes(x = price, y = quantity)) +
+  geom_point(alpha = 0.6, color = colors_uptc["primary"], size = 2) +
+  geom_line(aes(y = fitted), color = colors_uptc["accent"], size = 1.2) +
+  labs(
+    title = "Estimación OLS: Función de Demanda",
+    subtitle = paste0("Q̂ = ", round(beta_0_hat, 2), " - ", round(abs(beta_1_hat), 2), " × P"),
+    x = "Precio (P)",
+    y = "Cantidad demandada (Q)"
+  ) +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(face = "bold", size = 14),
+    plot.subtitle = element_text(size = 12, color = colors_uptc["secondary"])
+  )
+```
+
+### Paso 6: Prueba de hipótesis
+
+**Objetivo**: Verificar si las estimaciones son estadísticamente significativas y consistentes con la teoría.
+
+**Hipótesis nula típica**: $H_0: \beta_1 = 0$ (no existe relación entre precio y cantidad)
+
+**Hipótesis alternativa**: $H_1: \beta_1 \neq 0$ (existe relación)
+
+**Estadístico de prueba**: **estadístico t**
+$$t = \frac{\hat{\beta}_1 - 0}{\text{SE}(\hat{\beta}_1)}$$
+
+donde $\text{SE}(\hat{\beta}_1)$ es el error estándar del estimador.
+
+**Regla de decisión**: Si $|t| > t_{\alpha/2, n-2}$, rechazamos $H_0$ al nivel de significancia $\alpha$.
+
+**Ejemplo con los datos simulados**:
+
+```{r hypothesis-testing}
+# Resumen del modelo
+summary_model <- summary(demand_model)
+
+# Extraer estadístico t y p-valor
+t_stat <- summary_model$coefficients["price", "t value"]
+p_value <- summary_model$coefficients["price", "Pr(>|t|)"]
+
+# Mostrar resultados
+cat("Prueba de hipótesis para β₁:\n")
+cat(sprintf("H₀: β₁ = 0 (no hay efecto del precio)\n"))
+cat(sprintf("H₁: β₁ ≠ 0 (hay efecto del precio)\n\n"))
+cat(sprintf("Estadístico t = %.3f\n", t_stat))
+cat(sprintf("p-valor = %.4f\n\n", p_value))
+
+if (p_value < 0.05) {
+  cat("Conclusión: Rechazamos H₀ al 5% de significancia.\n")
+  cat("Existe evidencia estadística de que el precio afecta la cantidad demandada.\n")
+} else {
+  cat("Conclusión: No rechazamos H₀ al 5% de significancia.\n")
+}
+```
+
+**Intervalos de confianza**:
+
+Un intervalo de confianza del 95% para $\beta_1$ es:
+$$\hat{\beta}_1 \pm t_{0.025, n-2} \times \text{SE}(\hat{\beta}_1)$$
+
+```{r confidence-intervals}
+# Calcular intervalo de confianza al 95%
+conf_int <- confint(demand_model, level = 0.95)
+
+cat("Intervalo de confianza al 95% para β₁:\n")
+cat(sprintf("[%.3f, %.3f]\n\n", conf_int["price", 1], conf_int["price", 2]))
+cat("Interpretación: Con 95% de confianza, el verdadero efecto del precio\n")
+cat("sobre la cantidad demandada está entre estos valores.\n")
+```
+
+**Bondad de ajuste**: **Coeficiente de determinación** $R^2$
+
+$$R^2 = 1 - \frac{\text{SCR}}{\text{SCT}} = \frac{\text{SCE}}{\text{SCT}}$$
+
+donde:
+- SCR: Suma de cuadrados de los residuos
+- SCT: Suma de cuadrados totales
+- SCE: Suma de cuadrados explicados
+
+**Interpretación**: $R^2$ representa la proporción de variación en $Y$ explicada por el modelo.
+
+```{r r-squared}
+r_squared <- summary_model$r.squared
+
+cat(sprintf("R² = %.4f\n\n", r_squared))
+cat(sprintf("Interpretación: El %.1f%% de la variación en la cantidad demandada\n", r_squared * 100))
+cat("es explicada por el precio en este modelo.\n")
+```
+
+### Paso 7: Pronóstico o predicción
+
+**Objetivo**: Utilizar el modelo estimado para predecir valores futuros o no observados.
+
+**Tipos de pronóstico**:
+
+1. **Pronóstico puntual**: Valor predicho único
+2. **Pronóstico por intervalo**: Rango de valores con cierta confianza
+
+**Fórmula de predicción**:
+$$\hat{Q}_d = \hat{\beta}_0 + \hat{\beta}_1 P_{\text{nuevo}}$$
+
+**Ejemplo numérico**:
+
+```{r forecasting}
+# Nuevos valores de precio para pronóstico
+new_prices <- data.frame(price = c(20, 30, 40))
+
+# Predicción puntual
+predictions <- predict(demand_model, newdata = new_prices, interval = "prediction", level = 0.95)
+
+# Crear tabla de resultados
+forecast_table <- tibble(
+  Precio = new_prices$price,
+  `Cantidad Predicha` = predictions[, "fit"],
+  `Límite Inferior (95%)` = predictions[, "lwr"],
+  `Límite Superior (95%)` = predictions[, "upr"]
+)
+
+kable(forecast_table,
+      caption = "Pronósticos de demanda para nuevos precios",
+      digits = 2,
+      booktabs = TRUE) %>%
+  kable_styling(bootstrap_options = c("striped", "hover"))
+```
+
+**Visualización de pronósticos**:
+
+```{r plot-forecasts, fig.cap="Pronósticos con intervalos de confianza"}
+# Crear secuencia de precios para predicción
+price_seq <- seq(min(price), max(price), length.out = 100)
+pred_data <- data.frame(price = price_seq)
+
+# Predicciones con intervalos
+predictions_full <- predict(demand_model, newdata = pred_data, 
+                            interval = "confidence", level = 0.95)
+
+# Data frame para gráfico
+plot_data <- tibble(
+  price = price_seq,
+  fit = predictions_full[, "fit"],
+  lwr = predictions_full[, "lwr"],
+  upr = predictions_full[, "upr"]
+)
+
+# Gráfico
+ggplot() +
+  geom_ribbon(data = plot_data, aes(x = price, ymin = lwr, ymax = upr),
+              fill = colors_uptc["secondary"], alpha = 0.3) +
+  geom_line(data = plot_data, aes(x = price, y = fit),
+            color = colors_uptc["accent"], size = 1.2) +
+  geom_point(data = demand_data, aes(x = price, y = quantity),
+             alpha = 0.5, color = colors_uptc["primary"]) +
+  geom_point(data = forecast_table, aes(x = Precio, y = `Cantidad Predicha`),
+             color = colors_uptc["accent"], size = 4, shape = 18) +
+  labs(
+    title = "Modelo de Demanda: Datos, Ajuste y Pronósticos",
+    subtitle = "Banda gris: Intervalo de confianza al 95%",
+    x = "Precio",
+    y = "Cantidad demandada"
+  ) +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(face = "bold", size = 14),
+    plot.subtitle = element_text(size = 11, color = "gray40")
+  )
+```
+
+**Advertencias sobre pronósticos**:
+
+::: {.callout-warning icon=false}
+## Precauciones en el Pronóstico
+
+1. **Extrapolación**: Pronosticar fuera del rango de datos observados es riesgoso
+2. **Cambio estructural**: El modelo puede no ser válido en el futuro si la relación cambia
+3. **Incertidumbre creciente**: Los intervalos de confianza se amplían al alejarse de la media
+4. **Supuestos**: La validez del pronóstico depende de que se cumplan los supuestos del modelo
+:::
+
+### Paso 8: Uso para control o política económica
+
+**Objetivo**: Utilizar los resultados para diseñar e implementar políticas económicas.
+
+**Ejemplo: Política de precios**
+
+Si el gobierno desea que la cantidad demandada alcance un objetivo específico, puede usar el modelo para determinar el precio necesario:
+
+```{r policy-simulation}
+# Objetivo: alcanzar una demanda de 120 unidades
+target_quantity <- 120
+
+# Resolver para el precio: Q = β₀ + β₁P
+# P = (Q - β₀) / β₁
+target_price <- (target_quantity - beta_0_hat) / beta_1_hat
+
+cat("Simulación de política:\n")
+cat(sprintf("Objetivo: Demanda de %.0f unidades\n", target_quantity))
+cat(sprintf("Precio necesario: $%.2f\n\n", abs(target_price)))
+cat("Implicación de política: Para alcanzar el objetivo de demanda,\n")
+cat(sprintf("se debe fijar el precio en aproximadamente $%.2f\n", abs(target_price)))
+```
+
+**Evaluación de políticas alternativas**:
+
+```{r policy-evaluation}
+# Comparar diferentes escenarios de política
+policy_scenarios <- tibble(
+  Escenario = c("Status quo", "Subsidio 10%", "Subsidio 20%", "Impuesto 15%"),
+  Precio = c(25, 25 * 0.9, 25 * 0.8, 25 * 1.15)
+) %>%
+  mutate(
+    Demanda_Predicha = beta_0_hat + beta_1_hat * Precio,
+    Cambio_vs_Status_Quo = Demanda_Predicha - first(Demanda_Predicha)
+  )
+
+kable(policy_scenarios,
+      caption = "Evaluación de escenarios de política de precios",
+      digits = 2,
+      booktabs = TRUE) %>%
+  kable_styling(bootstrap_options = c("striped", "hover")) %>%
+  column_spec(1, bold = TRUE, color = colors_uptc["primary"])
+```
+
+---
+
+# Limitaciones y Peligros de la Econometría
+
+A pesar de su poder analítico, la econometría enfrenta desafíos importantes que el investigador debe reconocer [@kennedy2008guide, Cap. 1].
+
+## Limitaciones fundamentales
+
+### 1. Causalidad vs correlación
+
+::: {.callout-warning icon=false}
+##  Correlación no implica causalidad
+
+La econometría puede establecer asociaciones estadísticas, pero demostrar causalidad requiere supuestos adicionales o diseños cuasi-experimentales.
+:::
+
+**Ejemplo clásico**: Existe correlación entre consumo de helado y crímenes violentos. ¿Causa el helado crímenes? No: ambas variables aumentan en verano (variable confusora).
+
+**Condiciones para inferencia causal** [@angrist2009mostly]:
+
+1. **Exogeneidad**: $E(u|X) = 0$ (errores no correlacionados con regresores)
+2. **Instrumentos válidos**: Si hay endogeneidad, se necesitan variables instrumentales
+3. **Diseño cuasi-experimental**: Experimentos naturales, diferencias-en-diferencias, regresión discontinua
+
+### 2. Datos de mala calidad
+
+**Problemas comunes**:
+
+```{r data-quality-issues, echo=FALSE}
+data_issues <- tribble(
+  ~Problema, ~Descripción, ~Consecuencia,
+  "Errores de medición", "Variables observadas con error", "Sesgo en estimadores, atenuación",
+  "Datos faltantes", "Missing data no aleatorios", "Sesgo de selección",
+  "Outliers", "Observaciones atípicas influyentes", "Estimadores sesgados, baja eficiencia",
+  "Frecuencia incompatible", "Variables en diferentes frecuencias", "Pérdida de información, agregación incorrecta",
+  "Revisiones de datos", "Datos preliminares vs finales", "Inestabilidad de resultados"
+)
+
+kable(data_issues,
+      caption = "Problemas comunes en la calidad de datos económicos",
+      booktabs = TRUE) %>%
+  kable_styling(bootstrap_options = c("striped", "hover")) %>%
+  column_spec(1, bold = TRUE, color = colors_uptc["accent"])
+```
+
+### 3. Especificación del modelo
+
+**Teoría subdeterminada**: La teoría económica rara vez especifica la forma funcional exacta o el conjunto completo de variables a incluir.
+
+**Dilemas de especificación**:
+
+- ¿Forma lineal o no lineal?
+- ¿Qué variables de control incluir?
+- ¿Cómo modelar rezagos temporales?
+- ¿Nivel o logaritmos?
+
+**Pruebas de especificación**:
+
+```{r specification-tests, echo=FALSE}
+spec_tests <- tribble(
+  ~Test, ~Hipótesis_Nula, ~Uso,
+  "Ramsey RESET", "Forma funcional correcta", "Detectar no linealidades omitidas",
+  "Hausman", "Exogeneidad de regresores", "Contrastar efectos fijos vs aleatorios",
+  "Chow", "Estabilidad estructural", "Detectar cambios en parámetros",
+  "Davidson-MacKinnon", "Comparar modelos no anidados", "Selección entre formas funcionales"
+)
+
+kable(spec_tests,
+      caption = "Principales pruebas de especificación del modelo",
+      booktabs = TRUE) %>%
+  kable_styling(bootstrap_options = c("striped", "hover"))
+```
+
+### 4. Multicolinealidad
+
+**Definición**: Correlación alta entre variables explicativas.
+
+**Consecuencias**:
+- Varianzas de estimadores infladas (errores estándar grandes)
+- Intervalos de confianza amplios
+- Coeficientes individualmente no significativos, pero $F$ conjunto significativo
+- Estimaciones sensibles a pequeños cambios en datos
+
+**Ejemplo simulado**:
+
+```{r multicollinearity-example, fig.cap="Efecto de multicolinealidad en errores estándar"}
+# Simular datos con diferentes grados de multicolinealidad
+set.seed(2026)
+n <- 100
+x1 <- rnorm(n)
+
+# Diferentes niveles de correlación
+correlations <- c(0, 0.5, 0.8, 0.95, 0.99)
+
+results <- map_dfr(correlations, function(rho) {
+  x2 <- rho * x1 + sqrt(1 - rho^2) * rnorm(n)
+  y <- 1 + 2*x1 + 3*x2 + rnorm(n)
+  
+  model <- lm(y ~ x1 + x2)
+  tibble(
+    correlation = rho,
+    se_x1 = sqrt(vcov(model)[2, 2]),
+    se_x2 = sqrt(vcov(model)[3, 3]),
+    vif = 1 / (1 - rho^2)
+  )
+})
+
+# Gráfico
+ggplot(results, aes(x = correlation)) +
+  geom_line(aes(y = se_x1, color = "SE(β₁)"), size = 1.2) +
+  geom_line(aes(y = se_x2, color = "SE(β₂)"), size = 1.2) +
+  geom_vline(xintercept = 0.8, linetype = "dashed", color = "red", alpha = 0.5) +
+  scale_color_manual(values = c("SE(β₁)" = colors_uptc["primary"], 
+                                 "SE(β₂)" = colors_uptc["accent"])) +
+  labs(
+    title = "Impacto de Multicolinealidad en Errores Estándar",
+    subtitle = "Línea roja punteada: umbral crítico (corr = 0.8)",
+    x = "Correlación entre X₁ y X₂",
+    y = "Error Estándar",
+    color = "Estimador"
+  ) +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(face = "bold", size = 14),
+    legend.position = "bottom"
+  )
+```
+
+### 5. Heterocedasticidad y autocorrelación
+
+**Heterocedasticidad**: $\text{Var}(u_i|X_i) \neq \sigma^2$
+
+**Consecuencias**:
+- OLS sigue siendo insesgado
+- Errores estándar incorrectos → inferencia inválida
+- OLS no es eficiente (no BLUE)
+
+**Autocorrelación**: $\text{Cov}(u_i, u_j) \neq 0$ para $i \neq j$
+
+**Consecuencias similares** a heterocedasticidad.
+
+**Soluciones**:
+- Errores estándar robustos (HAC)
+- Mínimos cuadrados ponderados (WLS)
+- Mínimos cuadrados generalizados (GLS)
+
+---
+
+# Peligros Comunes en el Uso de Econometría
+
+## 1. Data mining y p-hacking
+
+::: {.callout-caution icon=false}
+##  Peligro: Búsqueda de significancia
+
+**P-hacking**: Probar múltiples especificaciones hasta encontrar resultados significativos, y reportar solo estos.
+
+**Consecuencia**: Falsos positivos, resultados no replicables.
+
+**Solución**: Preregistro de análisis, corrección por múltiples comparaciones, transparencia total.
+:::
+
+## 2. Sobreajuste (overfitting)
+
+**Definición**: Modelo que ajusta demasiado bien los datos de muestra, capturando ruido además de señal.
+
+**Consecuencia**: Predicciones pobres fuera de muestra.
+
+**Indicadores**:
+- $R^2$ muy alto (>0.99) en economía aplicada
+- Muchos regresores relativos al tamaño de muestra
+- Gran diferencia entre ajuste en muestra y fuera de muestra
+
+**Solución**: Validación cruzada, penalización (LASSO, Ridge), parsimonia.
+
+## 3. Extrapolación imprudente
+
+**Ejemplo visual**:
+
+```{r extrapolation-danger, fig.cap="Peligro de extrapolación fuera del rango de datos"}
+# Simular datos con relación no lineal
+set.seed(2026)
+x_sample <- runif(50, 1, 10)
+y_sample <- 20 + 5*x_sample - 0.3*x_sample^2 + rnorm(50, 0, 3)
+
+# Ajustar modelo lineal
+linear_model <- lm(y_sample ~ x_sample)
+
+# Extrapolar
+x_full <- seq(0, 15, length.out = 200)
+y_pred <- predict(linear_model, newdata = data.frame(x_sample = x_full))
+
+# Data frames
+data_sample <- tibble(x = x_sample, y = y_sample)
+data_full <- tibble(x = x_full, y = y_pred)
+
+# Gráfico
+ggplot() +
+  geom_rect(aes(xmin = 1, xmax = 10, ymin = -Inf, ymax = Inf),
+            fill = colors_uptc["light"], alpha = 0.3) +
+  geom_line(data = data_full, aes(x = x, y = y),
+            color = colors_uptc["accent"], size = 1.2) +
+  geom_point(data = data_sample, aes(x = x, y = y),
+             color = colors_uptc["primary"], size = 2, alpha = 0.7) +
+  annotate("text", x = 5.5, y = 65, label = "Rango de datos\nobservados",
+           size = 4, fontface = "bold", color = colors_uptc["dark"]) +
+  annotate("text", x = 12.5, y = 40, label = "⚠ Zona de\nextrapolación\npeligrosa",
+           size = 4, color = colors_uptc["accent"], fontface = "bold") +
+  labs(
+    title = "Peligro de Extrapolación",
+    subtitle = "La predicción lineal puede ser incorrecta fuera del rango observado",
+    x = "X",
+    y = "Y"
+  ) +
+  theme_minimal() +
+  theme(plot.title = element_text(face = "bold", size = 14))
+```
+
+## 4. Falacia ecológica
+
+**Definición**: Inferir relaciones a nivel individual a partir de datos agregados.
+
+**Ejemplo**: Una región con alto ingreso promedio y bajo crimen no implica que individuos de alto ingreso cometan menos crímenes.
+
+## 5. Sesgo de publicación
+
+**Problema**: Journals tienden a publicar solo resultados significativos, creando sesgo en la literatura.
+
+**Meta-análisis**: Herramienta para detectar y corregir este sesgo.
+
+---
+
+# Conexión con Capítulos Posteriores
+
+Este capítulo establece las bases conceptuales y metodológicas. Los capítulos subsiguientes profundizarán en:
+
+```{r chapter-connections, echo=FALSE}
+connections <- tribble(
+  ~Capítulo, ~Tema, ~Conexión_con_Cap1,
+  "Cap. 2-3", "Regresión simple y múltiple", "Formaliza el modelo econométrico del Paso 3",
+  "Cap. 4-6", "Inferencia estadística", "Desarrolla el Paso 6: pruebas de hipótesis",
+  "Cap. 7-10", "Violación de supuestos", "Aborda limitaciones prácticas discutidas",
+  "Cap. 11-15", "Variables cualitativas y no lineales", "Amplía especificaciones del Paso 2",
+  "Cap. 16-17", "Datos de panel", "Explota estructura longitudinal mencionada",
+  "Cap. 18-19", "Variables instrumentales", "Soluciona problemas de causalidad",
+  "Cap. 20-22", "Series de tiempo y temas avanzados", "Completa los tipos de datos presentados"
+)
+
+kable(connections,
+      caption = "Roadmap del libro: Conexiones con capítulos posteriores",
+      booktabs = TRUE) %>%
+  kable_styling(bootstrap_options = c("striped", "hover")) %>%
+  column_spec(1, bold = TRUE, color = colors_uptc["primary"]) %>%
+  column_spec(3, width = "40%")
+```
+
+---
+
+# Resumen del Capítulo
+
+::: {.callout-note icon=false collapse=true}
+##  Puntos Clave
+
+1. **Econometría = Teoría + Matemáticas + Estadística**: Disciplina integradora para el análisis empírico económico
+
+2. **Tres tipos de datos**: Series de tiempo (temporal), corte transversal (snapshot), panel (combinación)
+
+3. **Metodología de 8 pasos**: Desde teoría hasta política, proceso sistemático y replicable
+
+4. **OLS como método fundamental**: Minimiza residuos, BLUE bajo supuestos clásicos
+
+5. **Limitaciones cruciales**: Correlación ≠ causalidad, calidad de datos, especificación, multicolinealidad
+
+6. **Peligros prácticos**: Data mining, sobreajuste, extrapolación, sesgos de publicación
+
+7. **Rigor y transparencia**: Esenciales para investigación econométrica creíble
+:::
+
+---
+
+# Ejercicios
+
+## Ejercicios Conceptuales
+
+**1.1** Explique con sus propias palabras por qué la econometría necesita del término de error estocástico $u$ en el modelo. Dé tres razones específicas.
+
+**1.2** ¿Qué tipo de dato es más apropiado para cada investigación?
+   - a) Efecto de la educación en salarios individuales
+   - b) Impacto de tasas de interés en inversión agregada
+   - c) Evolución de la productividad de empresas manufactureras
+
+**1.3** Explique la diferencia entre significancia estadística y significancia económica. Dé un ejemplo donde un coeficiente sea estadísticamente significativo pero económicamente irrelevante.
+
+**1.4** Describa un escenario económico donde sospecha que existe heterocedasticidad. ¿Por qué esperaría varianza no constante?
+
+## Ejercicios Aplicados (con R)
+
+**1.5** Descargue datos del PIB trimestral de Colombia (DANE) y:
+   - a) Grafique la serie temporal
+   - b) Identifique tendencia, estacionalidad y ciclos
+   - c) Calcule la tasa de crecimiento trimestral
+
+**1.6** Simule un modelo de demanda con:
+$$Q = 500 - 10P + u, \quad u \sim N(0, 20^2)$$
+   - a) Genere 100 observaciones
+   - b) Estime por OLS
+   - c) Realice prueba de hipótesis para $\beta_1$
+   - d) Calcule e interprete $R^2$
+
+**1.7** Repita el ejercicio 1.6 pero introduciendo heterocedasticidad:
+$$u_i \sim N(0, (5P_i)^2)$$
+   - a) Compare errores estándar OLS normales vs robustos
+   - b) ¿Cambian las conclusiones de inferencia?
+
+---
+
+# Referencias
+
+:::
