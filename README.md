@@ -1,4 +1,4 @@
-# *Econometrics Time Series*
+# Econometrics Time Series
 
 **A Comprehensive Computational Econometrics Framework**
 
