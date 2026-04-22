@@ -1,4 +1,4 @@
-# Econometrics Time Series.
+# Econometrics Time Series
 
 **A Comprehensive Computational Econometrics Framework**
 
@@ -810,7 +810,7 @@ random_effects.PanelDataModel()
 hausman_test.PanelDataModel()
 ```
 
-### Functions (`R/functions/`)
+### Functions (`R/functions/`).
 
 **econometrics_utils.R**: Core econometric calculations
 
